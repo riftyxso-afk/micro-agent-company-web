@@ -1,0 +1,6 @@
+{
+  "name": "The Micro Agent Company",
+  "description": "Work like a real team with AI agents. Custom content, admin, research, sales, support, and growth agents optimized for real businesses.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
