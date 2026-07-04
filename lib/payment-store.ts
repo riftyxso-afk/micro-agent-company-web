@@ -10,7 +10,9 @@ export interface PendingPayment {
   createdAt: string;
 }
 
-const STORE_DIR = path.join(process.cwd(), ".payment-store");
+const STORE_DIR = process.env.VERCEL
+  ? "/tmp/.payment-store"
+  : path.join(process.cwd(), ".payment-store");
 
 function ensureDir() {
   if (!fs.existsSync(STORE_DIR)) {
