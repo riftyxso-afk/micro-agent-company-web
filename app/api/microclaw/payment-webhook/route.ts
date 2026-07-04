@@ -14,6 +14,22 @@ const planPrices: Record<string, number> = {
   business: 500000,
 };
 
+const isMock = process.env.MOCK_PROVISIONING === "true";
+
+function generateMockVps(tier: string) {
+  const suffix = Math.floor(Math.random() * 254) + 1;
+  const specs: Record<string, { cpu: string; ram: string; disk: string }> = {
+    starter: { cpu: "1 vCPU", ram: "1 GB", disk: "25 GB" },
+    pro: { cpu: "1 vCPU", ram: "2 GB", disk: "50 GB" },
+    business: { cpu: "2 vCPU", ram: "2 GB", disk: "60 GB" },
+  };
+  return {
+    ip: `203.0.113.${suffix}`,
+    token: `mc-${Array.from({ length: 32 }, () => Math.random().toString(36)[2]).join("")}`,
+    specs: specs[tier] || specs.starter,
+  };
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -44,8 +60,31 @@ export async function POST(request: NextRequest) {
     const tierName = planNames[plan] || plan;
     const tierPrice = `Rp ${(planPrices[plan] || amount).toLocaleString("id-ID")}`;
 
-    const vpsIp = "";
-    const gatewayToken = "";
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.themicroagentcompany.biz.id";
+
+    if (isMock) {
+      console.log(`[PAYMENT WEBHOOK] MOCK MODE — provisioning ${orderId}`);
+      const vps = generateMockVps(plan);
+
+      await sendWelcomeEmail({
+        email: userEmail,
+        name: userName,
+        tierName,
+        tierPrice,
+        vpsIp: vps.ip,
+        gatewayToken: vps.token,
+        dashboardUrl: `${baseUrl}/dashboard/microclaw`,
+        docsUrl: `${baseUrl}/docs/microclaw`,
+      });
+
+      deletePayment(orderId);
+      console.log(`[PAYMENT WEBHOOK] Mock provisioning complete for ${orderId}`);
+
+      return NextResponse.json({
+        message: "Mock provisioning complete",
+        vps: { ip: vps.ip, specs: vps.specs },
+      });
+    }
 
     try {
       const { exec } = await import("child_process");
@@ -79,8 +118,8 @@ export async function POST(request: NextRequest) {
             tierPrice,
             vpsIp: finalIp,
             gatewayToken: finalToken,
-            dashboardUrl: `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/dashboard/microclaw`,
-            docsUrl: `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/docs/microclaw`,
+            dashboardUrl: `${baseUrl}/dashboard/microclaw`,
+            docsUrl: `${baseUrl}/docs/microclaw`,
           });
 
           deletePayment(orderId);
