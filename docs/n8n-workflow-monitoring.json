@@ -1,0 +1,167 @@
+{
+  "name": "MicroClaw - VPS Health Monitoring",
+  "nodes": [
+    {
+      "id": "cron-trigger",
+      "name": "Every 5 Minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 300],
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "minutes", "minutesInterval": 5 }
+          ]
+        }
+      }
+    },
+    {
+      "id": "get-droplets",
+      "name": "Get All MicroClaw Droplets",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [450, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "https://api.digitalocean.com/v2/droplets?tag_name=microclaw&per_page=50",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth"
+      }
+    },
+    {
+      "id": "split-batches",
+      "name": "Iterate Droplets",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2.1,
+      "position": [650, 300],
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      }
+    },
+    {
+      "id": "health-check",
+      "name": "HTTP Health Check",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [850, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "http://{{ $json.droplet.networks.v4.filter(n => n.type === 'public')[0].ip_address }}:3000/api/health",
+        "authentication": "none",
+        "options": {
+          "timeout": 5000,
+          "allowUnauthorizedCerts": true,
+          "retryOnFail": true,
+          "maxTries": 2,
+          "waitBetweenTries": 3000
+        }
+      }
+    },
+    {
+      "id": "check-response",
+      "name": "Is Healthy?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1050, 300],
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.statusCode }}",
+              "operation": "notEqual",
+              "value2": 200
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ssh-restart",
+      "name": "SSH Restart Service",
+      "type": "n8n-nodes-base.sshExecute",
+      "typeVersion": 1,
+      "position": [1250, 200],
+      "parameters": {
+        "host": "={{ $node['HTTP Health Check'].json.droplet.networks.v4.filter(n => n.type === 'public')[0].ip_address }}",
+        "port": 22,
+        "username": "root",
+        "authentication": "privateKey",
+        "privateKey": "={{ $env.VPS_SSH_PRIVATE_KEY }}",
+        "executeCommand": "sudo systemctl restart microclaw-gateway",
+        "waitForReady": false
+      }
+    },
+    {
+      "id": "notify-alert",
+      "name": "Alert Admin Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [1250, 300],
+      "parameters": {
+        "resource": "message",
+        "operation": "sendMessage",
+        "chatId": "={{ $env.TELEGRAM_ADMIN_CHAT_ID }}",
+        "text": "🚨 VPS ALERT: {{ $node['Get All MicroClaw Droplets'].json.droplet.name }}\nIP: {{ $node['HTTP Health Check'].json.droplet.networks.v4.filter(n => n.type === 'public')[0].ip_address }}\nStatus: DOWN — Service auto-restarted",
+        "additionalFields": {}
+      }
+    },
+    {
+      "id": "done",
+      "name": "Done (Continue loop)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1050, 450],
+      "parameters": {}
+    }
+  ],
+  "connections": {
+    "Every 5 Minutes": {
+      "main": [
+        [{ "node": "Get All MicroClaw Droplets", "type": "main", "index": 0 }]
+      ]
+    },
+    "Get All MicroClaw Droplets": {
+      "main": [
+        [{ "node": "Iterate Droplets", "type": "main", "index": 0 }]
+      ]
+    },
+    "Iterate Droplets": {
+      "main": [
+        [{ "node": "HTTP Health Check", "type": "main", "index": 0 }]
+      ]
+    },
+    "HTTP Health Check": {
+      "main": [
+        [{ "node": "Is Healthy?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Is Healthy?": {
+      "main": [
+        [
+          { "node": "SSH Restart Service", "type": "main", "index": 0 },
+          { "node": "Alert Admin Telegram", "type": "main", "index": 0 }
+        ],
+        [{ "node": "Done (Continue loop)", "type": "main", "index": 0 }]
+      ]
+    },
+    "SSH Restart Service": {
+      "main": [
+        [{ "node": "Alert Admin Telegram", "type": "main", "index": 0 }]
+      ]
+    },
+    "Alert Admin Telegram": {
+      "main": [[]]
+    },
+    "Done (Continue loop)": {
+      "main": [[]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "pinData": {},
+  "versionId": "1.0.0",
+  "tags": []
+}

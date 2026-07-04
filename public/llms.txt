@@ -1,0 +1,21 @@
+# The Micro Agent Company
+
+> AI agents that handle content, admin, research, sales, support, and growth for freelancers, creators, and small businesses (UMKM).
+
+## Vision
+To make AI agents as essential to small businesses and independent creators as a spreadsheet or a phone.
+
+## Mission
+We build simple, affordable AI agents that handle real work so business owners can focus on what only they can do.
+
+## Main Pages
+- [Home](https://www.themicroagentcompany.biz.id/): Overview of AI agent categories and use cases
+- [About](https://www.themicroagentcompany.biz.id/about): Company vision, mission, and founder story
+- [Products](https://www.themicroagentcompany.biz.id/products): AI agent product offerings
+- [Agents](https://www.themicroagentcompany.biz.id/agents): List of available AI agents by category
+- [Use Cases](https://www.themicroagentcompany.biz.id/use-cases): Real-world application examples
+- [Pricing](https://www.themicroagentcompany.biz.id/pricing): Plans and pricing
+- [Services](https://www.themicroagentcompany.biz.id/services): Managed VPS setup and AI agent services
+- [Docs](https://www.themicroagentcompany.biz.id/docs): Technical documentation
+- [MicroClaw](https://www.themicroagentcompany.biz.id/products/microclaw): OpenClaw managed hosting for UMKM Indonesia
+- [Waitlist](https://www.themicroagentcompany.biz.id/waitlist): Join the waitlist

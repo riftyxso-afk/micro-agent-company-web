@@ -184,6 +184,7 @@ export default function PricingPage() {
             <Link href="/products" className="hover:text-electric-blue">Products</Link>
             <Link href="/agents" className="hover:text-electric-blue">Agents</Link>
             <Link href="/use-cases" className="hover:text-electric-blue">Use Cases</Link>
+            <Link href="/about" className="hover:text-electric-blue">About</Link>
             <Link href="/pricing" className="text-electric-blue">Pricing</Link>
             <Link href="/docs" className="hover:text-electric-blue">Docs</Link>
           </nav>

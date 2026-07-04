@@ -25,7 +25,7 @@ export default function AgentsPage() {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-3">
           <Link href="/" className="font-serif uppercase tracking-[0.12em] sm:tracking-[0.18em] text-[10px] xs:text-[11px] sm:text-[13px] font-bold leading-tight">The Micro Agent Company</Link>
           <nav className="hidden md:flex gap-7 text-[13px] font-medium text-stone-600">
-            <Link href="/products" className="hover:text-electric-blue">Products</Link><Link href="/agents" className="text-electric-blue">Agents</Link><Link href="/use-cases" className="hover:text-electric-blue">Use Cases</Link><Link href="/pricing" className="hover:text-electric-blue">Pricing</Link><Link href="/docs" className="hover:text-electric-blue">Docs</Link>
+            <Link href="/products" className="hover:text-electric-blue">Products</Link><Link href="/agents" className="text-electric-blue">Agents</Link><Link href="/use-cases" className="hover:text-electric-blue">Use Cases</Link><Link href="/about" className="hover:text-electric-blue">About</Link><Link href="/pricing" className="hover:text-electric-blue">Pricing</Link><Link href="/docs" className="hover:text-electric-blue">Docs</Link>
           </nav>
           <Link href="/start-free-trial" className="hidden sm:inline-flex bg-black text-white text-[12px] font-semibold px-5 py-2 rounded-full hover:bg-electric-blue">Start free trial</Link>
         </div>

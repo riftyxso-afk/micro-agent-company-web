@@ -1,0 +1,91 @@
+{
+  "name": "MicroClaw - Daily Report",
+  "nodes": [
+    {
+      "id": "cron-daily",
+      "name": "Every Day at 08:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 300],
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "cronExpression", "expression": "0 8 * * *" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "query-payments",
+      "name": "Get Today Payments",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "parameters": {
+        "operation": "select",
+        "tableId": "payments",
+        "returnAll": true,
+        "filters": {
+          "conditions": [
+            {
+              "fieldName": "status",
+              "condition": "Equal",
+              "searchValue": "completed"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "aggregate-data",
+      "name": "Aggregate Report Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300],
+      "parameters": {
+        "jsCode": "const payments = $input.all();\nconst totalToday = payments.length;\nconst totalRevenue = payments.reduce((sum, p) => sum + (p.amount || 0), 0);\nconst details = payments.map(p => ({\n  email: p.customer_email,\n  plan: p.plan,\n  amount: p.amount,\n  time: new Date(p.created_at).toLocaleTimeString('id-ID')\n}));\nreturn {\n  total_today: totalToday,\n  total_revenue: totalRevenue,\n  payments: details\n};"
+      }
+    },
+    {
+      "id": "send-report",
+      "name": "Send Report to Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [850, 300],
+      "parameters": {
+        "resource": "message",
+        "operation": "sendMessage",
+        "chatId": "={{ $env.TELEGRAM_ADMIN_CHAT_ID }}",
+        "text": "📊 Laporan Harian MicroClaw\nTanggal: {{ Date.now() | date('DD MMM YYYY') }}\n─────────────────────────\nTotal Payment: {{ $json.total_today }}\nRevenue: Rp {{ $json.total_revenue.toLocaleString('id-ID') }}\n─────────────────────────\n{{#each $json.payments}}\n• {{ email }} — {{ plan }} — Rp {{ amount }}\n{{/each}}",
+        "additionalFields": {}
+      }
+    }
+  ],
+  "connections": {
+    "Every Day at 08:00": {
+      "main": [
+        [{ "node": "Get Today Payments", "type": "main", "index": 0 }]
+      ]
+    },
+    "Get Today Payments": {
+      "main": [
+        [{ "node": "Aggregate Report Data", "type": "main", "index": 0 }]
+      ]
+    },
+    "Aggregate Report Data": {
+      "main": [
+        [{ "node": "Send Report to Telegram", "type": "main", "index": 0 }]
+      ]
+    },
+    "Send Report to Telegram": {
+      "main": [[]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "pinData": {},
+  "versionId": "1.0.0",
+  "tags": []
+}

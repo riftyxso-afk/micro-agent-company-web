@@ -112,6 +112,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               logo: `${siteUrl}/logo.svg`,
               description:
                 "AI agents untuk pebisnis & UMKM Indonesia. VPS + OpenClaw managed hosting.",
+              founder: {
+                "@type": "Person",
+                name: "I Wayan Radea",
+              },
+              foundingDate: "2025",
               sameAs: [
                 "https://t.me/microclaw",
               ],
@@ -120,6 +125,84 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   "@type": "ContactPoint",
                   contactType: "customer support",
                   availableLanguage: ["Indonesian", "English"],
+                },
+              ],
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: "The Micro Agent Company",
+              applicationCategory: "BusinessApplication",
+              operatingSystem: "Web",
+              offers: [
+                {
+                  "@type": "Offer",
+                  name: "Starter",
+                  price: "49000",
+                  priceCurrency: "IDR",
+                  description: "For students, creators, and solo users testing AI workflows.",
+                },
+                {
+                  "@type": "Offer",
+                  name: "Growth",
+                  price: "149000",
+                  priceCurrency: "IDR",
+                  description: "For UMKM and creators that need content output every week.",
+                },
+                {
+                  "@type": "Offer",
+                  name: "Custom Agent Setup",
+                  price: "1490000",
+                  priceCurrency: "IDR",
+                  description: "For businesses that want custom AI agents and automation.",
+                },
+              ],
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: [
+                {
+                  "@type": "Question",
+                  name: "Do I need to know how to code?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Not at all. Our agents are designed for non-technical users. You interact through WhatsApp, Telegram, or dashboard — no coding required.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Can I cancel anytime?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Yes. All plans are month-to-month with no long-term contracts. You can cancel anytime through your dashboard.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "What makes MicroClaw different from ChatGPT or Claude?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "MicroClaw gives you a dedicated AI assistant running on your own VPS with persistent memory, tool access, and channel integrations (WhatsApp, Telegram, Gmail, Calendar). ChatGPT is a shared chat interface.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Is my data private?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Yes. Your data stays on your own VPS. We never access your files or conversations unless you explicitly request support.",
+                  },
                 },
               ],
             }),

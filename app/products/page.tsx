@@ -74,6 +74,7 @@ export default function ProductsPage() {
             <Link href="/products" className="text-electric-blue font-bold text-[13px]">Products</Link>
             <Link href="/agents" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue">Agents</Link>
             <Link href="/use-cases" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue">Use Cases</Link>
+            <Link href="/about" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue">About</Link>
             <Link href="/pricing" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue">Pricing</Link>
             <Link href="/docs" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue">Docs</Link>
           </div>

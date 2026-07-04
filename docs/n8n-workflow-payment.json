@@ -1,0 +1,317 @@
+{
+  "name": "MicroClaw - Payment & Provisioning",
+  "nodes": [
+    {
+      "id": "webhook-trigger",
+      "name": "Pakasir Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 300],
+      "parameters": {
+        "path": "microclaw-payment",
+        "responseMode": "responseNode",
+        "options": {
+          "responseData": "allEntries",
+          "rawBody": true
+        }
+      }
+    },
+    {
+      "id": "validate-status",
+      "name": "Validate Payment Status",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [450, 300],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.body.status }}",
+              "operation": "equal",
+              "value2": "completed"
+            },
+            {
+              "value1": "={{ $json.body.project }}",
+              "operation": "equal",
+              "value2": "microagent"
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "store-supabase",
+      "name": "Store Payment to Supabase",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [650, 200],
+      "parameters": {
+        "operation": "insert",
+        "tableId": "payments",
+        "dataToSend": "defineBelow",
+        "fieldsToSend": {
+          "values": [
+            {
+              "fieldName": "order_id",
+              "fieldValue": "={{ $json.body.order_id }}"
+            },
+            {
+              "fieldName": "customer_email",
+              "fieldValue": "={{ $json.body.customer_email }}"
+            },
+            {
+              "fieldName": "customer_name",
+              "fieldValue": "={{ $json.body.customer_name }}"
+            },
+            {
+              "fieldName": "amount",
+              "fieldValue": "={{ $json.body.amount }}"
+            },
+            {
+              "fieldName": "plan",
+              "fieldValue": "={{ $json.body.plan }}"
+            },
+            {
+              "fieldName": "status",
+              "fieldValue": "completed"
+            },
+            {
+              "fieldName": "created_at",
+              "fieldValue": "={{ Date.now() }}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "create-droplet",
+      "name": "Create DO Droplet",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [650, 400],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.digitalocean.com/v2/droplets",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"name\": \"microclaw-{{ $json.body.order_id }}\",\"region\": \"sgp1\",\"size\": \"s-1vcpu-2gb\",\"image\": \"ubuntu-24-04-x64\",\"tags\": [\"microclaw\"],\"monitoring\": true}",
+        "options": {
+          "timeout": 30000,
+          "allowUnauthorizedCerts": false
+        }
+      }
+    },
+    {
+      "id": "wait-droplet",
+      "name": "Wait for Droplet Active",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [850, 400],
+      "parameters": {
+        "amount": 15,
+        "unit": "seconds"
+      }
+    },
+    {
+      "id": "check-droplet",
+      "name": "Check Droplet Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [850, 500],
+      "parameters": {
+        "method": "GET",
+        "url": "https://api.digitalocean.com/v2/droplets/{{ $node[\"Create DO Droplet\"].json.droplet.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 10000
+        }
+      }
+    },
+    {
+      "id": "loop-check",
+      "name": "Loop If Not Active",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1050, 500],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $node[\"Check Droplet Status\"].json.droplet.status }}",
+              "operation": "notEqual",
+              "value2": "active"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "extract-ip",
+      "name": "Extract IP Address",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 600],
+      "parameters": {
+        "jsCode": "const droplet = $input.first().json.droplet;\nconst publicIp = droplet.networks.v4.find(n => n.type === 'public');\nreturn {\n  vps_ip: publicIp ? publicIp.ip_address : null,\n  droplet_id: droplet.id,\n  droplet_name: droplet.name\n};"
+      }
+    },
+    {
+      "id": "ssh-install",
+      "name": "SSH Install OpenClaw",
+      "type": "n8n-nodes-base.sshExecute",
+      "typeVersion": 1,
+      "position": [850, 600],
+      "parameters": {
+        "host": "={{ $node[\"Extract IP Address\"].json.vps_ip }}",
+        "port": 22,
+        "username": "root",
+        "authentication": "privateKey",
+        "privateKey": "={{ $env.VPS_SSH_PRIVATE_KEY }}",
+        "executeCommand": "sudo apt-get update -qq && sudo apt-get install -y -qq curl ufw && ufw allow OpenSSH && ufw --force enable && curl -fsSL https://openclaw.sh | sh",
+        "waitForReady": true,
+        "readyTimeout": 60000
+      }
+    },
+    {
+      "id": "ssh-config",
+      "name": "SSH Configure Gateway",
+      "type": "n8n-nodes-base.sshExecute",
+      "typeVersion": 1,
+      "position": [850, 700],
+      "parameters": {
+        "host": "={{ $node[\"Extract IP Address\"].json.vps_ip }}",
+        "port": 22,
+        "username": "root",
+        "authentication": "privateKey",
+        "privateKey": "={{ $env.VPS_SSH_PRIVATE_KEY }}",
+        "executeCommand": "GATEWAY_TOKEN=$(openssl rand -hex 32) && mkdir -p ~/.openclaw && cat > ~/.openclaw/openclaw.json << 'EOF'\n{\n  \"agent\": { \"model\": \"google/gemini-2.0-flash\", \"temperature\": 0.7 },\n  \"gateway\": { \"port\": 3000, \"bind\": \"0.0.0.0\", \"auth\": { \"token\": \"$GATEWAY_TOKEN\" } },\n  \"workspace\": { \"path\": \"~/.openclaw/workspace\" }\n}\nEOF\necho \"GATEWAY_TOKEN=$GATEWAY_TOKEN\"",
+        "waitForReady": true,
+        "readyTimeout": 30000
+      }
+    },
+    {
+      "id": "extract-token",
+      "name": "Extract Gateway Token",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 700],
+      "parameters": {
+        "jsCode": "const output = $input.first().json;\nconst lines = output.stdout.split('\\n');\nconst tokenLine = lines.find(l => l.startsWith('GATEWAY_TOKEN='));\nconst gatewayToken = tokenLine ? tokenLine.split('=')[1] : '';\nreturn {\n  gateway_token: gatewayToken,\n  vps_ip: $node['Extract IP Address'].json.vps_ip\n};"
+      }
+    },
+    {
+      "id": "send-email",
+      "name": "Send Welcome Email via SendGrid",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [650, 800],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.sendgrid.com/v3/mail/send",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"personalizations\":[{\"to\":[{\"email\":\"{{ $node['Pakasir Webhook'].json.body.customer_email }}\"}]}],\"from\":{\"email\":\"noreply@microclaw.com\",\"name\":\"MicroClaw\"},\"subject\":\"Selamat datang di MicroClaw \",\"content\":[{\"type\":\"text/html\",\"value\":\"<h2>Halo {{ $node['Pakasir Webhook'].json.body.customer_name }}!</h2><p>VPS kamu sudah siap.</p><p><strong>IP:</strong> {{ $node['Extract Gateway Token'].json.vps_ip }}<br><strong>Gateway Token:</strong> <code>{{ $node['Extract Gateway Token'].json.gateway_token }}</code></p><p>Login dashboard: https://microclaw.com/dashboard</p>\"}]}",
+        "options": {
+          "timeout": 10000
+        }
+      }
+    },
+    {
+      "id": "notify-admin",
+      "name": "Notify Admin Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [650, 900],
+      "parameters": {
+        "resource": "message",
+        "operation": "sendMessage",
+        "chatId": "={{ $env.TELEGRAM_ADMIN_CHAT_ID }}",
+        "text": "🎉 Pembayaran & Provisioning Berhasil!\\nUser: {{ $node['Pakasir Webhook'].json.body.customer_name }}\\nEmail: {{ $node['Pakasir Webhook'].json.body.customer_email }}\\nPaket: {{ $node['Pakasir Webhook'].json.body.plan }}\\nVPS IP: {{ $node['Extract Gateway Token'].json.vps_ip }}",
+        "additionalFields": {}
+      }
+    }
+  ],
+  "connections": {
+    "Pakasir Webhook": {
+      "main": [
+        [{ "node": "Validate Payment Status", "type": "main", "index": 0 }]
+      ]
+    },
+    "Validate Payment Status": {
+      "main": [
+        [
+          { "node": "Store Payment to Supabase", "type": "main", "index": 0 },
+          { "node": "Create DO Droplet", "type": "main", "index": 0 }
+        ],
+        []
+      ]
+    },
+    "Create DO Droplet": {
+      "main": [
+        [{ "node": "Wait for Droplet Active", "type": "main", "index": 0 }]
+      ]
+    },
+    "Wait for Droplet Active": {
+      "main": [
+        [{ "node": "Check Droplet Status", "type": "main", "index": 0 }]
+      ]
+    },
+    "Check Droplet Status": {
+      "main": [
+        [{ "node": "Loop If Not Active", "type": "main", "index": 0 }]
+      ]
+    },
+    "Loop If Not Active": {
+      "main": [
+        [{ "node": "Wait for Droplet Active", "type": "main", "index": 0 }],
+        [{ "node": "Extract IP Address", "type": "main", "index": 0 }]
+      ]
+    },
+    "Extract IP Address": {
+      "main": [
+        [{ "node": "SSH Install OpenClaw", "type": "main", "index": 0 }]
+      ]
+    },
+    "SSH Install OpenClaw": {
+      "main": [
+        [{ "node": "SSH Configure Gateway", "type": "main", "index": 0 }]
+      ]
+    },
+    "SSH Configure Gateway": {
+      "main": [
+        [{ "node": "Extract Gateway Token", "type": "main", "index": 0 }]
+      ]
+    },
+    "Extract Gateway Token": {
+      "main": [
+        [{ "node": "Send Welcome Email via SendGrid", "type": "main", "index": 0 }]
+      ]
+    },
+    "Send Welcome Email via SendGrid": {
+      "main": [
+        [{ "node": "Notify Admin Telegram", "type": "main", "index": 0 }]
+      ]
+    },
+    "Notify Admin Telegram": {
+      "main": [[]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "pinData": {},
+  "versionId": "1.0.0",
+  "tags": []
+}

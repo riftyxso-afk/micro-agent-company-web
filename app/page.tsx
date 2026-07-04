@@ -2,6 +2,7 @@
 
 import React, { useState, type SVGProps } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import HiringBanner from "@/components/sections/HiringBanner";
 import {
   Sparkles,
   ChevronDown,
@@ -608,6 +609,7 @@ export default function Page() {
             <a href="/products" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">Products</a>
             <a href="/agents" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">Agents</a>
             <a href="/use-cases" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">Use Cases</a>
+            <a href="/about" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">About</a>
             <a href="/pricing" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">Pricing</a>
             <a href="/docs" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">Docs</a>
           </div>
@@ -637,6 +639,7 @@ export default function Page() {
             <a href="/products" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">Products</a>
             <a href="/agents" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">Agents</a>
             <a href="/use-cases" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">Use Cases</a>
+            <a href="/about" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">About</a>
             <a href="/pricing" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">Pricing</a>
             <a href="/docs" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">Docs</a>
             <div className="pt-2 border-t border-stone-100 flex flex-col space-y-2">
@@ -966,6 +969,8 @@ export default function Page() {
           )}
         </div>
       </section>
+
+      <HiringBanner />
 
       {/* Discovery Section with editorial SaaS grid layout */}
       <section id="discovery" className="min-h-screen bg-white border-y border-stone-200 relative overflow-hidden">
