@@ -44,3 +44,4 @@ Thumbs.db
 .dev-server.error.log
 node_modules
 
+.vercel

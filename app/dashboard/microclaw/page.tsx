@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
-  LayoutDashboard, Key, MessageCircle, Share2, CreditCard, Settings,
+  LayoutDashboard, Key, MessageCircle, Share2, CreditCard, Settings as SettingsIcon,
   ChevronRight, Save, Eye, EyeOff, Check, Copy, RefreshCw,
   Bot, Phone, Globe, Mail, Calendar, BookOpen, ExternalLink,
   Activity, Cpu, HardDrive, Wifi,
@@ -17,7 +17,7 @@ const tabs: { id: Tab; label: string; icon: React.ComponentType<{ size?: number 
   { id: "channels", label: "Channels", icon: MessageCircle },
   { id: "integrations", label: "Integrations", icon: Share2 },
   { id: "subscription", label: "Subscription", icon: CreditCard },
-  { id: "settings", label: "Settings", icon: Settings },
+  { id: "settings", label: "Settings", icon: SettingsIcon },
 ];
 
 export default function MicroClawDashboard() {
@@ -65,7 +65,7 @@ export default function MicroClawDashboard() {
                     : "bg-white text-[#1a1a1a]/60 border border-black/5"
                 }`}
               >
-                <Icon size={14} className="inline mr-1.5" />
+                <span className="inline mr-1.5"><Icon size={14} /></span>
                 {t.label}
               </button>
             );
