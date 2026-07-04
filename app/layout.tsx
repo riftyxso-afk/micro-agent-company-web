@@ -44,6 +44,10 @@ export const metadata: Metadata = {
     apple: "/logo.svg",
   },
 
+  verification: {
+    google: "t6Gi0bVdrU_yFNJLUKmdmxLOg0jqL_QCCNjszbLZd9w",
+  },
+
   openGraph: {
     type: "website",
     locale: "id_ID",
