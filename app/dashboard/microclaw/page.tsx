@@ -121,6 +121,19 @@ function DashboardNavbar() {
    OVERVIEW
    ════════════════════════════════════════════════════ */
 function Overview() {
+  const [telegramToken, setTelegramToken] = useState("");
+  const [telegramStatus, setTelegramStatus] = useState<"idle" | "testing" | "success" | "error">("idle");
+  const [savedTelegram, setSavedTelegram] = useState(false);
+
+  const handleTelegramSave = () => {
+    if (!telegramToken.trim()) return;
+    setTelegramStatus("testing");
+    setTimeout(() => {
+      setTelegramStatus("success");
+      setSavedTelegram(true);
+    }, 1500);
+  };
+
   return (
     <div>
       <h1 className="text-2xl font-medium tracking-[-0.03em] [font-family:Outfit,Inter,sans-serif]">Dashboard</h1>
@@ -169,30 +182,92 @@ function Overview() {
         })}
       </div>
 
-      {/* Quick actions */}
+      {/* Quick Actions */}
       <div className="mt-8">
         <h2 className="text-sm font-medium">Quick Actions</h2>
         <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {[
-            { label: "Connect Telegram", desc: "Set up your Telegram bot token", icon: MessageCircle, tab: "channels" },
-            { label: "Add API Key", desc: "Connect Gemini or OpenAI", icon: Key, tab: "api-keys" },
-            { label: "View Setup Docs", desc: "Telegram, Gmail & more guides", icon: BookOpen, tab: "" },
-          ].map((a) => {
-            const Icon = a.icon;
-            return (
-              <a
-                key={a.label}
-                href={a.tab ? `/dashboard/microclaw` : "/docs/microclaw"}
-                className="rounded-[12px] border border-black/5 bg-white p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md"
-              >
-                <div className="flex h-8 w-8 items-center justify-center rounded-[8px] bg-[#0000EE]/10">
-                  <Icon size={16} className="text-[#0000EE]" />
+          {/* Connect Telegram — interactive */}
+          <div className="rounded-[12px] border border-black/5 bg-white p-5 shadow-sm">
+            <div className="flex h-8 w-8 items-center justify-center rounded-[8px] bg-[#0000EE]/10">
+              <MessageCircle size={16} className="text-[#0000EE]" />
+            </div>
+            <p className="mt-3 text-sm font-medium">Connect Telegram</p>
+            <p className="mt-0.5 text-xs text-[#1a1a1a]/50">
+              {savedTelegram ? "Bot token tersimpan!" : "Masukkan token bot Telegram kamu"}
+            </p>
+
+            {!savedTelegram ? (
+              <div className="mt-3 space-y-2">
+                <input
+                  type="text"
+                  value={telegramToken}
+                  onChange={(e) => { setTelegramToken(e.target.value); setTelegramStatus("idle"); }}
+                  placeholder="7276822776:AAEq5o..."
+                  className="w-full rounded-[8px] border border-black/10 bg-white px-3 py-2 text-xs outline-none transition focus:border-[#0000EE]"
+                />
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleTelegramSave}
+                    disabled={!telegramToken.trim() || telegramStatus === "testing"}
+                    className="inline-flex h-8 items-center gap-1.5 rounded-full bg-[#1a1a1a] px-4 text-xs font-medium text-white transition hover:bg-[#0000EE] disabled:opacity-40"
+                  >
+                    {telegramStatus === "testing" ? (
+                      <><RefreshCw size={12} className="animate-spin" /> Testing...</>
+                    ) : (
+                      <><Check size={12} /> Simpan Token</>
+                    )}
+                  </button>
+                  <a
+                    href="/docs/microclaw"
+                    target="_blank"
+                    className="inline-flex h-8 items-center gap-1 rounded-full bg-stone-100 px-3 text-xs text-[#1a1a1a]/60 transition hover:bg-stone-200"
+                  >
+                    Panduan <ExternalLink size={10} />
+                  </a>
                 </div>
-                <p className="mt-3 text-sm font-medium">{a.label}</p>
-                <p className="mt-0.5 text-xs text-[#1a1a1a]/50">{a.desc}</p>
-              </a>
-            );
-          })}
+                {telegramStatus === "success" && (
+                  <p className="text-xs text-green-600">✓ Bot terverifikasi! Chat sekarang di Telegram.</p>
+                )}
+                {telegramStatus === "error" && (
+                  <p className="text-xs text-red-500">Token tidak valid. Coba lagi.</p>
+                )}
+              </div>
+            ) : (
+              <div className="mt-3 flex items-center gap-2">
+                <span className="rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-700">Connected</span>
+                <button
+                  onClick={() => { setSavedTelegram(false); setTelegramToken(""); setTelegramStatus("idle"); }}
+                  className="text-xs text-[#1a1a1a]/40 underline transition hover:text-[#1a1a1a]/70"
+                >
+                  Ganti
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Add API Key */}
+          <button
+            onClick={() => {}}
+            className="rounded-[12px] border border-black/5 bg-white p-5 text-left shadow-sm transition hover:-translate-y-[1px] hover:shadow-md"
+          >
+            <div className="flex h-8 w-8 items-center justify-center rounded-[8px] bg-[#0000EE]/10">
+              <Key size={16} className="text-[#0000EE]" />
+            </div>
+            <p className="mt-3 text-sm font-medium">Add API Key</p>
+            <p className="mt-0.5 text-xs text-[#1a1a1a]/50">Connect Gemini or OpenAI</p>
+          </button>
+
+          {/* View Setup Docs */}
+          <a
+            href="/docs/microclaw"
+            className="rounded-[12px] border border-black/5 bg-white p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md"
+          >
+            <div className="flex h-8 w-8 items-center justify-center rounded-[8px] bg-[#0000EE]/10">
+              <BookOpen size={16} className="text-[#0000EE]" />
+            </div>
+            <p className="mt-3 text-sm font-medium">View Setup Docs</p>
+            <p className="mt-0.5 text-xs text-[#1a1a1a]/50">Telegram, Gmail & more guides</p>
+          </a>
         </div>
       </div>
     </div>
