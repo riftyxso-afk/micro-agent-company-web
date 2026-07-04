@@ -21,7 +21,7 @@ const outfit = Outfit({
   weight: ["400", "500", "600", "700"],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://the-micro-agent-company.vercel.app";
+const siteUrl = "https://www.themicroagentcompany.biz.id";
 
 export const viewport: Viewport = {
   width: "device-width",

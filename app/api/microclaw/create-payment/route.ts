@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
 
     storePayment({ orderId: order_id, name, email, plan, amount, createdAt: new Date().toISOString() });
 
-    const successRedirect = `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/products/microclaw/payment/success?order_id=${order_id}`;
+    const successRedirect = `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.themicroagentcompany.biz.id"}/products/microclaw/payment/success?order_id=${order_id}`;
 
     const paymentUrl = `${PAKASIR_BASE}/pay/${projectSlug}/${amount}?order_id=${order_id}&redirect=${encodeURIComponent(successRedirect)}`;
 
