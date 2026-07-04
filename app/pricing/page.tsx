@@ -66,7 +66,6 @@ export default function PricingPage() {
       trial: "7-day free trial included",
       features: [
         "7-day free trial before billing",
-        "CekAI access",
         "10 AI content checks / day",
         "Basic prompt templates",
         "Email support"

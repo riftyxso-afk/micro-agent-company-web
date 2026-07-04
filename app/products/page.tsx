@@ -9,16 +9,16 @@ export default function ProductsPage() {
 
   const products = [
     {
-      id: "cekai",
-      name: "CekAI",
+      id: "microclaw",
+      name: "MicroClaw",
       category: "saas",
-      tagline: "Affordable AI content detector for creators & professionals.",
-      desc: "Deep analysis detector calibrated for ChatGPT, Claude, Gemini, and Llama. Ensures content integrity and authenticity indexes.",
+      tagline: "OpenClaw managed hosting — AI assistant 24/7 via WhatsApp & Telegram.",
+      desc: "VPS + OpenClaw pre-installed. Setup otomatis, akses via WhatsApp/Telegram, integrasi Gmail & Calendar. Untuk pebisnis & UMKM Indonesia.",
       badge: "Self-Serve App",
-      pricing: "Rp 49.000 / month",
-      cta: "Try CekAI",
-      href: "/start-free-trial",
-      features: ["99.4% detection accuracy", "Plagiarism check integration", "API access for developers", "Detailed sentence-level reports"]
+      pricing: "Rp 150.000 / month",
+      cta: "Lihat MicroClaw",
+      href: "/products/microclaw",
+      features: ["WhatsApp & Telegram access", "Manajemen email & calendar", "Second Brain / Obsidian vault", "Invoice & payment tracking", "Integrasi dengan SekaliPost"]
     },
     {
       id: "sekalipost",

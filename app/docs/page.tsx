@@ -38,6 +38,7 @@ export default function DocsPage() {
             <nav className="flex flex-col gap-2">
               <button onClick={() => setActive("get-started")} className={`text-left text-sm py-1.5 px-3 rounded-md transition-all cursor-pointer ${active === "get-started" ? "bg-stone-100 text-stone-950 font-semibold" : "text-stone-500 hover:text-stone-900"}`}>Get Started</button>
               <button onClick={() => setActive("white-paper")} className={`text-left text-sm py-1.5 px-3 rounded-md transition-all cursor-pointer ${active === "white-paper" ? "bg-stone-100 text-stone-950 font-semibold" : "text-stone-500 hover:text-stone-900"}`}>White Paper Brief</button>
+              <Link href="/docs/microclaw" className="text-left text-sm py-1.5 px-3 rounded-md transition-all text-stone-500 hover:text-stone-900 hover:bg-stone-50">MicroClaw Docs →</Link>
             </nav>
           </div>
         </aside>

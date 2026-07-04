@@ -8,7 +8,7 @@ const useCases = [
   { icon: Store, name: "UMKM", desc: "Post consistent content, manage invoices, and reply to customer messages automatically.", needs: ["Content scheduling with SekaliPost", "Invoice automation via AI Admin Agent", "WhatsApp promo templates"] },
   { icon: User, name: "Creators", desc: "Generate hooks, scripts, captions, and carousel outlines in one workflow.", needs: ["AI hooks & caption generator", "14-day content calendar", "Viral script templates"] },
   { icon: Briefcase, name: "Freelancers", desc: "Win proposals with researched outreach and automate follow-ups.", needs: ["Client outreach sequences", "Proposal draft generation", "Invoice follow-up automation"] },
-  { icon: GraduationCap, name: "Students", desc: "Validate AI-generated content with CekAI and organize research with Scout agent.", needs: ["AI content detection for assignments", "Literature review assistant", "Study note summarizer"] },
+  { icon: GraduationCap, name: "Students", desc: "Organize research with Scout agent and accelerate study workflows.", needs: ["Literature review assistant", "Study note summarizer", "Research organization tools"] },
   { icon: Lightbulb, name: "Solo founders", desc: "Operate as a full team with agent roles for product, content, sales, and growth.", needs: ["Full agent team (Atlas → Ranker)", "Growth pipeline automation", "Customer feedback parsing"] },
   { icon: Building2, name: "Small agencies", desc: "Scale output across clients without hiring more people.", needs: ["Multi-client content calendars", "Proposal & pitch automation", "Competitor tracking per niche"] },
 ];
