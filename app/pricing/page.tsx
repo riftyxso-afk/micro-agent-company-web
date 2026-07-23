@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
+import { useTranslation } from "@/lib/i18n";
 
 function formatRupiah(value: number) {
   return `Rp ${value.toLocaleString("id-ID")}`;
@@ -53,17 +54,17 @@ function AnimatedPrice({ value, suffix = "" }: { value: number; suffix?: string 
 }
 
 export default function PricingPage() {
+  const { t } = useTranslation();
   const [annual, setAnnual] = useState(false);
   const [billingPulse, setBillingPulse] = useState(0);
 
   const plans = useMemo(() => [
     {
-      name: "Starter",
+      nameKey: "starter",
       priceValue: annual ? 390000 : 49000,
       period: annual ? "/ year" : "/ month",
-      desc: "For students, creators, and solo users testing AI workflows.",
-      cta: "Start 7-Day Free Trial",
-      trial: "7-day free trial included",
+      cta: t("pricingPage.starterCta"),
+      trial: t("pricingPage.starterNote"),
       features: [
         "7-day free trial before billing",
         "10 AI content checks / day",
@@ -72,13 +73,12 @@ export default function PricingPage() {
       ]
     },
     {
-      name: "Growth",
+      nameKey: "growth",
       priceValue: annual ? 1190000 : 149000,
       period: annual ? "/ year" : "/ month",
-      desc: "For UMKM and creators that need content output every week.",
-      cta: "Start Growth",
+      cta: t("pricingPage.growthCta"),
       highlight: true,
-      savings: annual ? "Save 33% yearly" : "Most popular",
+      savings: annual ? t("pricingPage.saveYearly") : t("pricingPage.popular"),
       features: [
         "SekaliPost workflow",
         "30 content ideas / month",
@@ -88,12 +88,11 @@ export default function PricingPage() {
       ]
     },
     {
-      name: "Custom Agent Setup",
+      nameKey: "custom",
       priceValue: 1490000,
       priceSuffix: "+",
       period: " setup",
-      desc: "For businesses that want custom AI agents and automation.",
-      cta: "Book Setup",
+      cta: t("pricingPage.customCta"),
       features: [
         "AI Growth Agent setup",
         "AI Admin Agent setup",
@@ -102,7 +101,7 @@ export default function PricingPage() {
         "Founder onboarding call"
       ]
     },
-  ], [annual]);
+  ], [annual, t]);
 
   const switchBilling = (nextAnnual: boolean) => {
     if (nextAnnual === annual) return;
@@ -181,34 +180,34 @@ export default function PricingPage() {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-3">
           <Link href="/" className="font-serif uppercase tracking-[0.12em] sm:tracking-[0.18em] text-[10px] xs:text-[11px] sm:text-[13px] font-bold leading-tight">The Micro Agent Company</Link>
           <nav className="hidden md:flex gap-7 text-[13px] font-medium">
-            <Link href="/products" className="hover:text-electric-blue">Products</Link>
-            <Link href="/agents" className="hover:text-electric-blue">Agents</Link>
-            <Link href="/use-cases" className="hover:text-electric-blue">Use Cases</Link>
-            <Link href="/about" className="hover:text-electric-blue">About</Link>
-            <Link href="/pricing" className="text-electric-blue">Pricing</Link>
-            <Link href="/docs" className="hover:text-electric-blue">Docs</Link>
+            <Link href="/products" className="hover:text-electric-blue">{t("nav.products")}</Link>
+            <Link href="/agents" className="hover:text-electric-blue">{t("nav.agents")}</Link>
+            <Link href="/use-cases" className="hover:text-electric-blue">{t("nav.useCases")}</Link>
+            <Link href="/about" className="hover:text-electric-blue">{t("nav.about")}</Link>
+            <Link href="/pricing" className="text-electric-blue">{t("nav.pricing")}</Link>
+            <Link href="/docs" className="hover:text-electric-blue">{t("nav.docs")}</Link>
           </nav>
-          <Link href="/start-free-trial" className="hidden sm:inline-flex bg-black text-white text-[12px] font-semibold px-5 py-2 rounded-full hover:bg-electric-blue transition-colors">Start free trial</Link>
+          <Link href="/waitlist" className="hidden sm:inline-flex bg-black text-white text-[12px] font-semibold px-5 py-2 rounded-full hover:bg-electric-blue transition-colors">{t("nav.bookCall")}</Link>
         </div>
       </header>
 
       <section className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
         <div className="text-center max-w-[720px] mx-auto mb-12">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-electric-blue mb-4">Pricing</p>
-          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight mb-5">Start small. Upgrade when agents save time.</h1>
-          <p className="text-stone-600 leading-relaxed font-medium">Flexible pricing for validation, growth, and custom AI agent setup.</p>
+          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-electric-blue mb-4">{t("pricingPage.title")}</p>
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight mb-5">{t("pricingPage.heading")}</h1>
+          <p className="text-stone-600 leading-relaxed font-medium">{t("pricingPage.subtitle")}</p>
           <div className="mt-8 inline-flex w-full sm:w-auto items-center justify-center gap-2 bg-white/95 border border-stone-300 rounded-full p-1.5 shadow-sm backdrop-blur-sm">
-            <button onClick={() => switchBilling(false)} className={`flex-1 sm:flex-none px-5 py-2.5 rounded-full text-[12px] font-bold transition-all ${!annual ? "bg-black shadow-sm text-white" : "text-stone-700 hover:text-stone-950 hover:bg-stone-100"}`}>Monthly</button>
-            <button onClick={() => switchBilling(true)} className={`flex-1 sm:flex-none px-5 py-2.5 rounded-full text-[12px] font-bold transition-all ${annual ? "bg-black shadow-sm text-white" : "text-stone-700 hover:text-stone-950 hover:bg-stone-100"}`}>Yearly</button>
+            <button onClick={() => switchBilling(false)} className={`flex-1 sm:flex-none px-5 py-2.5 rounded-full text-[12px] font-bold transition-all ${!annual ? "bg-black shadow-sm text-white" : "text-stone-700 hover:text-stone-950 hover:bg-stone-100"}`}>{t("pricingPage.monthly")}</button>
+            <button onClick={() => switchBilling(true)} className={`flex-1 sm:flex-none px-5 py-2.5 rounded-full text-[12px] font-bold transition-all ${annual ? "bg-black shadow-sm text-white" : "text-stone-700 hover:text-stone-950 hover:bg-stone-100"}`}>{t("pricingPage.yearly")}</button>
           </div>
         </div>
 
         <div key={billingPulse} className="billing-pulse grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
           {plans.map((plan) => (
-            <div key={plan.name} className={`relative border rounded-2xl p-5 sm:p-7 transition-all ${plan.highlight ? "border-electric-blue bg-blue-50/20 shadow-sm" : "border-stone-200 bg-white hover:border-stone-400"}`}>
+            <div key={plan.nameKey} className={`relative border rounded-2xl p-5 sm:p-7 transition-all ${plan.highlight ? "border-electric-blue bg-blue-50/20 shadow-sm" : "border-stone-200 bg-white hover:border-stone-400"}`}>
               {plan.trial && (
                 <div className="mb-4 sm:mb-0 sm:absolute sm:right-5 sm:top-5 inline-flex items-center gap-1.5 rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-warm-orange">
-                  <Sparkles size={12} /> 7 Days Free
+                  <Sparkles size={12} /> {t("pricingPage.7days")}
                 </div>
               )}
               {plan.savings && (
@@ -217,8 +216,8 @@ export default function PricingPage() {
                 </div>
               )}
 
-              <p className="font-serif text-2xl font-bold mb-2 pr-0 sm:pr-28">{plan.name}</p>
-              <p className="text-stone-500 text-sm leading-relaxed min-h-[58px]">{plan.desc}</p>
+              <p className="font-serif text-2xl font-bold mb-2 pr-0 sm:pr-28">{t(`pricingPage.${plan.nameKey}`)}</p>
+              <p className="text-stone-500 text-sm leading-relaxed min-h-[58px]">{t(`pricingPage.${plan.nameKey}Desc`)}</p>
 
               <div className="my-6 sm:my-8 min-h-[52px] flex flex-wrap items-end gap-1.5">
                 <AnimatedPrice value={plan.priceValue} suffix={plan.priceSuffix} />
@@ -227,7 +226,7 @@ export default function PricingPage() {
 
               {plan.trial && (
                 <div className="mb-5 rounded-xl border border-orange-200 bg-orange-50/70 p-3 text-[12.5px] font-medium text-stone-700">
-                  Starter mulai dengan <span className="font-bold text-warm-orange">free trial 7 hari</span>. Tidak perlu bayar saat mulai validasi.
+                  {t("pricingPage.starter")} mulai dengan <span className="font-bold text-warm-orange">free trial 7 hari</span>. Tidak perlu bayar saat mulai validasi.
                 </div>
               )}
 

@@ -3,6 +3,7 @@
 import React, { useState, type SVGProps } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import HiringBanner from "@/components/sections/HiringBanner";
+import { useTranslation } from "@/lib/i18n";
 import {
   Sparkles,
   ChevronDown,
@@ -467,6 +468,7 @@ const DEPARTMENTS = [
 ];
 
 export default function Page() {
+  const { t, locale, setLocale } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   // Department Showcase State
@@ -594,33 +596,50 @@ export default function Page() {
           <a href="#" className="font-serif flex items-center gap-2 sm:gap-3 group hover:opacity-95 transition-all min-w-0">
             <img src="/logo.svg" alt="The Micro Agent Company" className="h-8 w-8 sm:h-9 sm:w-9 shrink-0 rounded-lg" />
             <span className="flex flex-col items-start min-w-0">
-              <span className="text-[9px] sm:text-[10px] italic leading-none text-stone-400 font-medium tracking-tight">the</span>
+              <span className="text-[9px] sm:text-[10px] italic leading-none text-stone-400 font-medium tracking-tight">{t("nav.the")}</span>
               <span className="text-[11px] sm:text-[14px] uppercase font-bold tracking-[0.14em] sm:tracking-[0.2em] text-stone-900 leading-none">
-                Micro Agent
+                {t("nav.microAgent")}
               </span>
               <span className="text-[11px] sm:text-[14px] uppercase font-bold tracking-[0.14em] sm:tracking-[0.2em] text-stone-900 leading-none mt-0.5">
-                Company
+                {t("nav.company")}
               </span>
             </span>
           </a>
 
           {/* Links for desktop */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="/products" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">Products</a>
-            <a href="/agents" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">Agents</a>
-            <a href="/use-cases" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">Use Cases</a>
-            <a href="/about" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">About</a>
-            <a href="/pricing" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">Pricing</a>
-            <a href="/docs" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">Docs</a>
+            <a href="/products" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">{t("nav.products")}</a>
+            <a href="/agents" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">{t("nav.agents")}</a>
+            <a href="/use-cases" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">{t("nav.useCases")}</a>
+            <a href="/about" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">{t("nav.about")}</a>
+            <a href="/pricing" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">{t("nav.pricing")}</a>
+            <a href="/docs" className="text-stone-600 font-medium text-[13px] hover:text-electric-blue transition-colors">{t("nav.docs")}</a>
           </div>
 
           <div className="flex items-center space-x-3">
             <a href="/sign-in" className="font-sans text-[12px] font-medium text-stone-800 px-4 py-2 border border-stone-200 rounded-[10px] hover:border-electric-blue hover:text-electric-blue transition-all hidden sm:inline-block">
-              Sign in
+              {t("nav.signIn")}
             </a>
-            <a href="/waitlist" className="font-sans text-[11px] sm:text-[12px] font-medium bg-pure-black text-white px-3 sm:px-5 py-2 rounded-full hover:bg-electric-blue transition-all active:scale-95 whitespace-nowrap">
-              Start free trial
+            <a href="/book-a-call" className="font-sans text-[11px] sm:text-[12px] font-medium bg-pure-black text-white px-3 sm:px-5 py-2 rounded-full hover:bg-electric-blue transition-all active:scale-95 whitespace-nowrap">
+              {t("nav.bookCall")}
             </a>
+
+            {/* Language selector */}
+            <div className="hidden sm:flex items-center space-x-1 border border-stone-200 rounded-[10px] px-2 py-1.5">
+              <button
+                onClick={() => setLocale("id")}
+                className={`text-[11px] font-medium px-1.5 py-0.5 rounded transition-all ${locale === "id" ? "bg-pure-black text-white" : "text-stone-500 hover:text-stone-800"}`}
+              >
+                ID
+              </button>
+              <span className="text-stone-300 text-[10px]">|</span>
+              <button
+                onClick={() => setLocale("en")}
+                className={`text-[11px] font-medium px-1.5 py-0.5 rounded transition-all ${locale === "en" ? "bg-pure-black text-white" : "text-stone-500 hover:text-stone-800"}`}
+              >
+                EN
+              </button>
+            </div>
 
             {/* Mobile menu trigger */}
             <button 
@@ -636,16 +655,30 @@ export default function Page() {
         {/* Mobile menu layout */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-white/95 backdrop-blur-md border-b border-stone-200 py-4 px-6 space-y-3 absolute top-16 left-0 right-0 shadow-lg">
-            <a href="/products" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">Products</a>
-            <a href="/agents" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">Agents</a>
-            <a href="/use-cases" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">Use Cases</a>
-            <a href="/about" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">About</a>
-            <a href="/pricing" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">Pricing</a>
-            <a href="/docs" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">Docs</a>
+            <a href="/products" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">{t("nav.products")}</a>
+            <a href="/agents" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">{t("nav.agents")}</a>
+            <a href="/use-cases" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">{t("nav.useCases")}</a>
+            <a href="/about" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">{t("nav.about")}</a>
+            <a href="/pricing" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">{t("nav.pricing")}</a>
+            <a href="/docs" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">{t("nav.docs")}</a>
             <div className="pt-2 border-t border-stone-100 flex flex-col space-y-2">
               <a href="/sign-in" onClick={() => setMobileMenuOpen(false)} className="text-center font-medium text-[13px] py-1.5 border border-stone-200 rounded-[10px]">
-                Sign in
+                {t("nav.signIn")}
               </a>
+              <div className="flex items-center justify-center space-x-2 pt-1">
+                <button
+                  onClick={() => { setLocale("id"); setMobileMenuOpen(false); }}
+                  className={`text-[12px] font-medium px-3 py-1 rounded ${locale === "id" ? "bg-pure-black text-white" : "text-stone-500 border border-stone-200"}`}
+                >
+                  ID
+                </button>
+                <button
+                  onClick={() => { setLocale("en"); setMobileMenuOpen(false); }}
+                  className={`text-[12px] font-medium px-3 py-1 rounded ${locale === "en" ? "bg-pure-black text-white" : "text-stone-500 border border-stone-200"}`}
+                >
+                  EN
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -669,7 +702,7 @@ export default function Page() {
         >
           {/* Badge */}
           <div className="inline-flex items-center space-x-2 bg-white/90 backdrop-blur-xs border border-stone-200 rounded-md px-3 py-1 mb-7 shadow-xs transition-all duration-300">
-            <span className="font-sans text-[11px] font-medium text-stone-500 uppercase tracking-wider">Built by</span>
+            <span className="font-sans text-[11px] font-medium text-stone-500 uppercase tracking-wider">{t("nav.builtBy")}</span>
             <div className="w-1.5 h-1.5 rounded-full bg-electric-blue transition-colors duration-300" />
             <span className="font-sans text-[11px] font-bold text-electric-blue uppercase tracking-wider">
               {SLIDES[activeSlide].name}
@@ -677,7 +710,7 @@ export default function Page() {
           </div>
 
           <h1 className="font-serif text-[40px] sm:text-[56px] leading-[1.2] text-stone-955 font-normal tracking-tight mb-6 min-h-[100px] sm:min-h-[140px] flex flex-col items-center justify-center">
-            <span>Work like a real team with</span>
+            <span>{t("hero.title1")}</span>
             <div className="relative overflow-hidden h-[54px] sm:h-[72px] w-full flex items-center justify-center">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -708,17 +741,17 @@ export default function Page() {
           </h1>
 
           <p className="font-sans text-[15px] sm:text-[17px] leading-relaxed text-stone-600 mb-10 max-w-[620px]">
-            The Micro Agent Company helps individuals, creators, freelancers, and small businesses turn AI into a working team for content, admin, research, sales, support, and growth.
+            {t("hero.subtitle")}
           </p>
 
           <div className="flex flex-col items-center">
             <a 
-              href="#agent-playroom" 
+              href="/book-a-call" 
               className="font-sans text-[13px] font-semibold bg-pure-black text-white px-9 py-3.5 rounded-full hover:bg-electric-blue transition-all shadow-md active:scale-95 mb-4"
             >
-              Start free trial
+              {t("hero.bookCall")}
             </a>
-            <span className="font-sans text-[11px] text-stone-400 tracking-wide">Small company. Smart agents. Real work done.</span>
+            <span className="font-sans text-[11px] text-stone-400 tracking-wide">{t("hero.tagline")}</span>
           </div>
         </motion.div>
       </section>
@@ -728,13 +761,13 @@ export default function Page() {
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center max-w-[650px] mx-auto mb-12">
             <h3 className="font-sans text-[11px] font-bold text-stone-400 uppercase tracking-[0.2em] mb-3">
-              Built for real work
+              {t("builtFor.title")}
             </h3>
             <h2 className="font-serif text-[38px] leading-[1.2] font-normal text-stone-955 mb-4">
-              A collaborative team structure for your business
+              {t("builtFor.heading")}
             </h2>
             <p className="text-stone-500 text-[14px]">
-              Select a specialized functional department below to explore their workflows and active agent orchestrations.
+              {t("builtFor.subtitle")}
             </p>
           </div>
 
@@ -758,7 +791,7 @@ export default function Page() {
                 >
                   <IconComp className={`w-5 h-5 mb-2 transition-colors ${isSelected ? "text-electric-blue" : "text-stone-400 group-hover:text-stone-700"}`} />
                   <span className={`font-sans text-[14px] font-semibold tracking-tight text-stone-900 group-hover:text-stone-900`}>
-                    {dept.name}
+                    {t(`departments.${dept.id.toLowerCase()}`)}
                   </span>
                 </button>
               );
@@ -783,20 +816,20 @@ export default function Page() {
                     <div className="md:col-span-2 space-y-4">
                       <div className="inline-flex items-center gap-2 bg-stone-100 text-stone-600 px-3 py-1 rounded-full text-[11px] font-semibold font-sans tracking-wide">
                         <span className="w-1.5 h-1.5 rounded-full bg-electric-blue" />
-                        ACTIVE DEPARTMENT WORKFLOW
+                        {t("builtFor.activeDept")}
                       </div>
                       <h4 className="font-serif text-2xl text-stone-950 font-normal">
-                        Optimizing {dept.name} with AI Agents
+                        {t("builtFor.optimizing", { name: t(`departments.${dept.id.toLowerCase()}`) })}
                       </h4>
                       <p className="font-sans text-stone-600 text-[13.5px] leading-relaxed">
-                        {dept.description}
+                        {t(`departments.${dept.id.toLowerCase()}Desc`)}
                       </p>
                     </div>
 
                     <div className="bg-stone-50/80 border border-stone-150 rounded-lg p-5 flex flex-col justify-between h-full min-h-[160px]">
                       <div>
                         <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest block mb-1">
-                          POWERED BY
+                          {t("builtFor.poweredBy")}
                         </span>
                         <div className="flex items-center gap-2.5">
                           <div className="p-2 rounded-lg bg-white border border-stone-200 text-electric-blue">
@@ -807,7 +840,7 @@ export default function Page() {
                               {dept.agent}
                             </span>
                             <span className="text-[10px] text-stone-400 block font-mono">
-                              AGENT NODE
+                              {t("builtFor.agentNode")}
                             </span>
                           </div>
                         </div>
@@ -823,7 +856,7 @@ export default function Page() {
                         }}
                         className="mt-4 w-full justify-center bg-pure-black text-white hover:bg-electric-blue text-[12px] font-semibold py-2.5 px-4 rounded-lg inline-flex items-center gap-1.5 transition-all shadow-xs cursor-pointer active:scale-98"
                       >
-                        Activate Playroom console
+                        {t("builtFor.activatePlayroom")}
                         <ArrowRight size={12} />
                       </button>
                     </div>
@@ -840,10 +873,10 @@ export default function Page() {
         <div className="max-w-[900px] mx-auto px-6">
           <div className="text-center max-w-[600px] mx-auto mb-12">
             <h2 className="font-serif text-3xl font-medium text-stone-950 mb-3">
-              Interactive Agent Playroom
+              {t("agentPlayroom.title")}
             </h2>
             <p className="text-stone-500 text-[14px]">
-              Select an agent from the grid above to activate their console, edit their prompt, and see them execute real-world workflows in real time.
+              {t("agentPlayroom.subtitle")}
             </p>
           </div>
 
@@ -858,25 +891,25 @@ export default function Page() {
                   <div>
                     <h4 className="font-sans font-bold text-stone-900 text-sm">{selectedAgent} Agent</h4>
                     <p className="text-[11px] text-stone-400 flex items-center gap-1">
-                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> Ready & Active
+                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> {t("agentPlayroom.ready")}
                     </p>
                   </div>
                 </div>
                 <span className="text-[11px] font-mono bg-stone-100 text-stone-500 px-2 py-1 rounded">
-                  MODEL: GEMINI-3.5-FLASH
+                  {t("agentPlayroom.model")}
                 </span>
               </div>
 
               {/* Body */}
               <div className="p-6">
                 <p className="text-stone-600 text-[13px] mb-4">
-                  {AGENTS_CONFIG[selectedAgent].description}
+                  {t(`agents.${selectedAgent.toLowerCase()}Desc`)}
                 </p>
 
                 <form onSubmit={handleRunAgent} className="space-y-4">
                   <div>
                     <label className="block text-stone-400 text-[11px] font-bold uppercase tracking-wider mb-2">
-                      Agent Instructions / Prompt
+                      {t("agentPlayroom.instructions")}
                     </label>
                     <textarea
                       value={agentPrompt}
@@ -893,7 +926,7 @@ export default function Page() {
                       onClick={() => setAgentPrompt(AGENTS_CONFIG[selectedAgent].placeholder)}
                       className="text-stone-400 text-[11px] hover:text-stone-600 flex items-center gap-1"
                     >
-                      Reset template prompt
+                      {t("agentPlayroom.reset")}
                     </button>
 
                     <button
@@ -905,12 +938,12 @@ export default function Page() {
                       {loadingAgent ? (
                         <>
                           <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          Executing...
+                          {t("agentPlayroom.executing")}
                         </>
                       ) : (
                         <>
                           <Play size={12} className="fill-white" />
-                          Execute Agent Workflow
+                          {t("agentPlayroom.execute")}
                         </>
                       )}
                     </button>
@@ -923,11 +956,11 @@ export default function Page() {
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-[11px] font-bold text-stone-400 uppercase tracking-wider flex items-center gap-1.5">
                         <Sparkles size={11} className="text-electric-blue" />
-                        Agent Output Console
+                        {t("agentPlayroom.output")}
                       </span>
                       {loadingAgent && (
                         <span className="text-[11px] text-electric-blue font-mono animate-pulse">
-                          Receiving context...
+                          {t("agentPlayroom.receiving")}
                         </span>
                       )}
                     </div>
@@ -942,7 +975,7 @@ export default function Page() {
 
                     {agentError && (
                       <div className="bg-red-50 border border-red-200 text-red-600 rounded-lg p-4 text-[13px]">
-                        <p className="font-bold mb-1">Execution failed</p>
+                        <p className="font-bold mb-1">{t("agentPlayroom.failed")}</p>
                         <p>{agentError}</p>
                       </div>
                     )}
@@ -979,10 +1012,10 @@ export default function Page() {
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[55%_45%] border-b border-stone-200">
             <div className="px-6 sm:px-10 lg:px-14 py-14 lg:py-16 border-b lg:border-b-0 lg:border-r border-stone-200">
               <h2 className="font-serif text-[48px] sm:text-[64px] leading-[1.02] text-stone-950 mb-5 font-normal tracking-tight">
-                Discovery
+                {t("discovery.title")}
               </h2>
               <p className="text-stone-500 font-sans text-[15px] leading-relaxed max-w-[390px]">
-                When AI answers a question, your product should be in the answer.
+                {t("discovery.subtitle")}
               </p>
             </div>
             <div className="relative min-h-[180px] px-6 sm:px-10 lg:px-14 py-14 lg:py-16 overflow-hidden">
@@ -1009,10 +1042,10 @@ export default function Page() {
               <div className="relative z-10 space-y-6">
                 <div>
                   <h4 className="font-serif font-bold text-stone-900 text-sm mb-1">
-                    AI Search Discovery Tool
+                    {t("discovery.toolTitle")}
                   </h4>
                   <p className="text-[12px] text-stone-400">
-                    Analyze how conversational engines crawl and cite your company.
+                    {t("discovery.toolDesc")}
                   </p>
                 </div>
 
@@ -1020,11 +1053,11 @@ export default function Page() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-[11px] font-bold text-stone-400 uppercase tracking-wider mb-1.5">
-                        Company Name
+                        {t("discovery.companyName")}
                       </label>
                       <input
                         type="text"
-                        placeholder="e.g. Acme CRM"
+                        placeholder={t("discovery.companyPlaceholder")}
                         value={companyName}
                         onChange={(e) => setCompanyName(e.target.value)}
                         className="w-full bg-white border border-stone-200 rounded-lg p-2.5 text-stone-800 text-[12px] focus:ring-1 focus:ring-electric-blue focus:border-electric-blue focus:outline-none"
@@ -1033,11 +1066,11 @@ export default function Page() {
                     </div>
                     <div>
                       <label className="block text-[11px] font-bold text-stone-400 uppercase tracking-wider mb-1.5">
-                        Product Niche
+                        {t("discovery.productNiche")}
                       </label>
                       <input
                         type="text"
-                        placeholder="e.g. AI-powered CRM"
+                        placeholder={t("discovery.nichePlaceholder")}
                         value={companyNiche}
                         onChange={(e) => setCompanyNiche(e.target.value)}
                         className="w-full bg-white border border-stone-200 rounded-lg p-2.5 text-stone-800 text-[12px] focus:ring-1 focus:ring-electric-blue focus:border-electric-blue focus:outline-none"
@@ -1055,12 +1088,12 @@ export default function Page() {
                     {loadingDiscovery ? (
                       <>
                         <Sparkles size={12} className="animate-spin text-white" />
-                        Generating analysis...
+                        {t("discovery.generating")}
                       </>
                     ) : (
                       <>
                         <Sparkles size={12} className="text-white" />
-                        Generate AI Optimization Plan
+                        {t("discovery.generate")}
                       </>
                     )}
                   </button>
@@ -1089,24 +1122,24 @@ export default function Page() {
                   ) : (
                     <div>
                       <h4 className="font-sans text-[15px] font-semibold text-stone-800 mb-4 flex items-center justify-between">
-                        Top 5 AI-Powered CRM Tools in 2025
-                        <span className="text-[10px] bg-sky-50 text-sky-600 font-semibold px-2 py-0.5 rounded-full border border-sky-100">AI Citation Target</span>
+                        {t("discovery.sampleTitle")}
+                        <span className="text-[10px] bg-sky-50 text-sky-600 font-semibold px-2 py-0.5 rounded-full border border-sky-100">{t("discovery.sampleBadge")}</span>
                       </h4>
                       <div className="space-y-3">
-                        <p className="font-sans font-bold text-[13px] text-stone-900">Intro</p>
+                        <p className="font-sans font-bold text-[13px] text-stone-900">{t("discovery.sampleIntro")}</p>
                         <p className="font-sans text-[12px] leading-relaxed text-stone-500">
-                          When businesses ask AI tools like ChatGPT, Claude, or Gemini &quot;What&apos;s the best AI CRM for small businesses?&quot; — the answers come from a handful of trusted sources. 
+                          {t("discovery.sampleText")}
                         </p>
                         <div className="inline-block bg-stone-100 text-[10px] text-stone-500 px-2 py-0.5 rounded-lg border border-stone-200 font-medium my-1">
-                          Best CRM Software 2025 report by G2
+                          {t("discovery.sampleSource")}
                         </div>
                         <div className="relative pt-1">
                           <p className="font-sans text-[12px] leading-relaxed text-stone-500">
-                            We analyzed AI responses across platforms to find the most-cited CRM tools, why they stand out...
+                            {t("discovery.sampleAnalysis")}
                           </p>
                           <div className="absolute -bottom-2 right-4 bg-pure-black text-white text-[10px] font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
                             <Sparkles size={11} className="text-white animate-pulse" />
-                            Optimized CRM Index Setup
+                            {t("discovery.sampleOptimized")}
                           </div>
                         </div>
                       </div>
@@ -1128,10 +1161,10 @@ export default function Page() {
                 </span>
               </div>
               <h4 className="font-serif font-bold text-stone-950 text-[19px] mb-2">
-                Find user questions
+                {t("discovery.step1Title")}
               </h4>
               <p className="text-stone-500 text-[13px] leading-relaxed">
-                Find the exact conversational query lines your target demographic enters into generative chatbots.
+                {t("discovery.step1Desc")}
               </p>
             </div>
 
@@ -1144,10 +1177,10 @@ export default function Page() {
                 </span>
               </div>
               <h4 className="font-serif font-bold text-stone-950 text-[19px] mb-2">
-                Generate content
+                {t("discovery.step2Title")}
               </h4>
               <p className="text-stone-500 text-[13px] leading-relaxed">
-                Develop reference content optimized for structural indexers to establish your product as the leading cited source.
+                {t("discovery.step2Desc")}
               </p>
             </div>
 
@@ -1160,16 +1193,126 @@ export default function Page() {
                 </span>
               </div>
               <h4 className="font-serif font-bold text-stone-950 text-[19px] mb-2">
-                Increase AI traffic & mentions
+                {t("discovery.step3Title")}
               </h4>
               <p className="text-stone-500 text-[13px] leading-relaxed">
-                Synthesize incoming bot index patterns and verify active mentions directly in conversational output channels.
+                {t("discovery.step3Desc")}
               </p>
             </div>
           </div>
 
         </div>
       </div>
+      </section>
+
+      {/* Our Products / Projects Section */}
+      <section id="products" className="min-h-screen flex flex-col justify-center py-24 bg-white border-b border-stone-100">
+        <div className="max-w-[1200px] mx-auto px-6">
+          <div className="text-center max-w-[600px] mx-auto mb-16">
+            <p className="text-[11px] font-bold text-stone-400 uppercase tracking-widest mb-3">
+              {locale === "id" ? "GARAPAN KAMI" : "OUR PRODUCTS"}
+            </p>
+            <h2 className="font-serif text-3xl sm:text-4xl font-normal text-stone-950 mb-3">
+              {locale === "id" ? "Produk yang sudah kami bangun" : "Products we've built"}
+            </h2>
+            <p className="text-stone-500 text-[13px]">
+              {locale === "id"
+                ? "Dari API gateway hingga AI workspace — semua dibangun untuk production."
+                : "From API gateways to AI workspaces — all built for production."}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Relay AI Hub */}
+            <div className="group bg-stone-50 border border-stone-200 rounded-2xl overflow-hidden hover:border-stone-300 hover:shadow-md transition-all">
+              <div className="relative aspect-[16/10] bg-stone-100 overflow-hidden">
+                <img
+                  src="/screenshots/relay-hub.png"
+                  alt="Relay by Micro Agent"
+                  className="w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-500"
+                />
+                <div className="absolute top-3 right-3">
+                  <span className="bg-green-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                    Production
+                  </span>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="font-serif text-xl font-medium text-stone-900">Relay</h3>
+                    <p className="text-[11px] text-stone-400 font-mono tracking-wider">relay-ai-hub.vercel.app</p>
+                  </div>
+                  <a
+                    href="https://relay-ai-hub.vercel.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="shrink-0 border border-stone-200 bg-white text-stone-600 text-[11px] font-semibold px-3 py-1.5 rounded-lg hover:bg-electric-blue hover:text-white hover:border-electric-blue transition-all flex items-center gap-1"
+                  >
+                    <ArrowRight size={11} /> Live
+                  </a>
+                </div>
+                <p className="text-stone-600 text-[12px] leading-relaxed">
+                  OpenAI-compatible LLM gateway. Access Claude, GPT, Gemini, Qwen, DeepSeek and more through one API key, with Rupiah billing and automatic failover.
+                </p>
+                <div className="flex flex-wrap gap-2 mt-4">
+                  <span className="text-[10px] font-medium bg-electric-blue/10 text-electric-blue px-2 py-0.5 rounded">LLM Gateway</span>
+                  <span className="text-[10px] font-medium bg-stone-100 text-stone-500 px-2 py-0.5 rounded">API</span>
+                  <span className="text-[10px] font-medium bg-stone-100 text-stone-500 px-2 py-0.5 rounded">Rupiah</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Micro Agent Beta */}
+            <div className="group bg-stone-50 border border-stone-200 rounded-2xl overflow-hidden hover:border-stone-300 hover:shadow-md transition-all">
+              <div className="relative aspect-[16/10] bg-stone-100 overflow-hidden">
+                <img
+                  src="/screenshots/micro-agent-beta.png"
+                  alt="MicroAgent AI Super Workspace"
+                  className="w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-500"
+                />
+                <div className="absolute top-3 right-3">
+                  <span className="bg-amber-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                    Beta
+                  </span>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="font-serif text-xl font-medium text-stone-900">MicroAgent</h3>
+                    <p className="text-[11px] text-stone-400 font-mono tracking-wider">micro-agent-beta.vercel.app</p>
+                  </div>
+                  <a
+                    href="https://micro-agent-beta.vercel.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="shrink-0 border border-stone-200 bg-white text-stone-600 text-[11px] font-semibold px-3 py-1.5 rounded-lg hover:bg-electric-blue hover:text-white hover:border-electric-blue transition-all flex items-center gap-1"
+                  >
+                    <ArrowRight size={11} /> Live
+                  </a>
+                </div>
+                <p className="text-stone-600 text-[12px] leading-relaxed">
+                  AI Super Workspace — a unified environment to orchestrate multiple AI agents, manage workflows, and monitor performance from a single dashboard.
+                </p>
+                <div className="flex flex-wrap gap-2 mt-4">
+                  <span className="text-[10px] font-medium bg-amber-50 text-amber-600 px-2 py-0.5 rounded">Workspace</span>
+                  <span className="text-[10px] font-medium bg-stone-100 text-stone-500 px-2 py-0.5 rounded">AI Agents</span>
+                  <span className="text-[10px] font-medium bg-stone-100 text-stone-500 px-2 py-0.5 rounded">Dashboard</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <a
+              href="/products"
+              className="inline-flex items-center gap-2 text-[12px] font-semibold text-electric-blue hover:text-stone-900 transition-colors"
+            >
+              {locale === "id" ? "Lihat semua produk →" : "View all products →"}
+            </a>
+          </div>
+        </div>
       </section>
 
       {/* Frequently Asked Questions Section */}
@@ -1179,10 +1322,10 @@ export default function Page() {
           {/* Left Block */}
           <div>
             <h2 className="font-serif text-[42px] leading-[1.1] font-normal text-stone-955 mb-4">
-              Frequently asked<br className="hidden md:inline" /> questions
+              {t("faq.title")}
             </h2>
             <p className="text-stone-500 text-[13px] font-sans">
-              Get clear, technical answers to the most common questions about optimizing for AI agent discovery systems.
+              {t("faq.subtitle")}
             </p>
           </div>
 
@@ -1201,7 +1344,7 @@ export default function Page() {
                     id={`faq-btn-${index}`}
                   >
                     <span className="font-sans font-semibold text-[14px] text-stone-900 group-hover:text-electric-blue transition-colors">
-                      {item.question}
+                      {t(`faq.q${index + 1}`)}
                     </span>
                     <span className="text-stone-400 group-hover:text-stone-900 transition-colors">
                       {isOpen ? (
@@ -1218,7 +1361,7 @@ export default function Page() {
                     }`}
                   >
                     <p className="font-sans text-stone-500 text-[13px] leading-relaxed">
-                      {item.answer}
+                      {t(`faq.a${index + 1}`)}
                     </p>
                   </div>
                 </div>
@@ -1242,63 +1385,63 @@ export default function Page() {
         <div className="relative z-10 mx-auto max-w-[1440px] border-x border-black/[0.08] px-6 sm:px-10 lg:px-14">
           <div className="mx-auto max-w-[820px] text-center pb-16 lg:pb-20">
             <h2 className="font-serif text-[34px] sm:text-[48px] lg:text-[56px] leading-[1.05] font-normal tracking-tight text-[#050505] mb-4">
-              Get discovered & used by
+              {t("footer.heading")}
             </h2>
             <p className="font-serif text-xl sm:text-2xl text-[#050505] mb-5">
-              AI Agents
+              {t("footer.subheading")}
             </p>
             <p className="mx-auto max-w-[560px] text-[14px] sm:text-[15px] leading-relaxed text-stone-600 mb-8">
-              You optimized for user experience. Now optimize for <span className="font-mono text-[12px] font-bold uppercase tracking-[0.18em] text-blue-600">AGENT EXPERIENCE.</span>
+              {t("footer.text", { highlight: t("footer.agentExperience") })}
             </p>
             <a
-              href="/waitlist"
+              href="/book-a-call"
               className="inline-flex items-center justify-center rounded-full bg-black px-6 py-3 text-[13px] font-semibold text-white transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-black/85 active:translate-y-0"
             >
-              Start free trial
+              {t("footer.bookCall")}
             </a>
           </div>
 
           <div className="border-t border-black/[0.08] py-12 lg:py-16 grid grid-cols-1 lg:grid-cols-[45%_55%] gap-12 lg:gap-16">
             <div className="space-y-6">
               <div className="font-serif text-[#050505] flex flex-col items-start w-max">
-                <span className="text-[12px] italic leading-none mb-1 text-stone-400">the</span>
+                <span className="text-[12px] italic leading-none mb-1 text-stone-400">{t("footer.the")}</span>
                 <span className="text-[20px] uppercase font-bold tracking-[0.2em] leading-none mb-3">
-                  Micro Agent<br />Company
+                  {t("footer.microAgent")}<br />{t("footer.company")}
                 </span>
               </div>
               <p className="max-w-[420px] text-[13.5px] leading-relaxed text-stone-600">
-                You optimized for user experience. Now optimize for <span className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-blue-600">AGENT EXPERIENCE.</span>
+                {t("footer.desc")}
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:justify-items-end">
               <div className="flex flex-col space-y-4">
-                <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Company</span>
-                <a href="/pricing" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">Pricing</a>
-                <a href="#built-for" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">Enterprise</a>
-                <a href="#discovery" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">Trust center</a>
-                <a href="#built-for" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">Competitor analysis</a>
-                <a href="/docs" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">Documentation</a>
-                <a href="#hero" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">Careers</a>
+                <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">{t("footer.companyColumn")}</span>
+                <a href="/pricing" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">{t("footer.companyColumn")}</a>
+                <a href="#built-for" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">{t("footer.enterprise")}</a>
+                <a href="#discovery" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">{t("footer.trustCenter")}</a>
+                <a href="#built-for" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">{t("footer.competitorAnalysis")}</a>
+                <a href="/docs" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">{t("footer.documentation")}</a>
+                <a href="#hero" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">{t("footer.careers")}</a>
               </div>
 
               <div className="flex flex-col space-y-4">
-                <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Contact</span>
-                <a href="#" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">LinkedIn</a>
-                <a href="#" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">X / Twitter</a>
+                <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">{t("footer.contact")}</span>
+                <a href="#" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">{t("footer.linkedin")}</a>
+                <a href="#" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">{t("footer.xTwitter")}</a>
               </div>
 
               <div className="flex flex-col space-y-4">
-                <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Legal</span>
-                <a href="#" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">Privacy policy</a>
-                <a href="#" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">Terms of use</a>
+                <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">{t("footer.legal")}</span>
+                <a href="#" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">{t("footer.privacyPolicy")}</a>
+                <a href="#" className="text-[12px] font-medium text-stone-600 hover:text-blue-600 transition-colors">{t("footer.termsOfUse")}</a>
               </div>
             </div>
           </div>
 
           <div className="border-t border-black/[0.08] py-6">
             <p className="text-[11px] font-medium text-stone-600">
-              © 2026 The Micro Agent Company, Inc.
+              {t("footer.copyright")}
             </p>
           </div>
         </div>

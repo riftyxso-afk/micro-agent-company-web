@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Libre_Caslon_Text, Outfit } from "next/font/google";
 import "./globals.css";
+import LanguageProviderWrapper from "@/components/LanguageProviderWrapper";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -210,7 +211,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body suppressHydrationWarning className="antialiased min-h-screen bg-white text-black font-sans">
-        {children}
+        <LanguageProviderWrapper>{children}</LanguageProviderWrapper>
       </body>
     </html>
   );

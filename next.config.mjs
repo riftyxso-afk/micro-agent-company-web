@@ -3,11 +3,12 @@ const isDev = process.env.NODE_ENV === "development";
 
 const cspHeader = `
     default-src 'self';
-    script-src 'self' 'unsafe-inline' 'unsafe-eval';
-    style-src 'self' 'unsafe-inline';
-    img-src 'self' data: blob: https://picsum.photos https://microclaw.com;
-    font-src 'self' data:;
-    connect-src 'self' https://app.pakasir.com https://api.digitalocean.com;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://assets.calendly.com;
+    style-src 'self' 'unsafe-inline' https://assets.calendly.com;
+    img-src 'self' data: blob: https://picsum.photos https://microclaw.com https://calendly.com;
+    font-src 'self' data: https://assets.calendly.com;
+    connect-src 'self' https://app.pakasir.com https://api.digitalocean.com https://calendly.com;
+    frame-src https://calendly.com;
     object-src 'none';
     base-uri 'self';
     form-action 'self' https://app.pakasir.com;
