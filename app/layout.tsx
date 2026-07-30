@@ -33,11 +33,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "The Micro Agent Company | AI Agents for Real Work",
+    default: "The Micro Agent Company | AI Visibility untuk Bisnis",
     template: "%s | The Micro Agent Company",
   },
   description:
-    "AI agents untuk pebisnis & UMKM Indonesia. Kelola email, content, research, invoice via WhatsApp & Telegram. VPS + OpenClaw managed hosting.",
+    "The Micro Agent Company membantu bisnis meningkatkan AI Visibility agar ChatGPT, Gemini, Claude, Perplexity, dan AI masa depan bisa memahami dan merekomendasikan brand Anda dengan akurat. Layanan: AI Visibility Audit, AI Readiness Assessment, GEO Strategy, AI Brand Monitoring.",
 
   icons: {
     icon: "/logo.svg",
@@ -53,9 +53,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "id_ID",
     siteName: "The Micro Agent Company",
-    title: "The Micro Agent Company | AI Agents for Real Work",
+    title: "The Micro Agent Company | AI Visibility untuk Bisnis",
     description:
-      "AI agents untuk pebisnis & UMKM Indonesia. Kelola email, content, research, invoice via WhatsApp & Telegram.",
+      "Meningkatkan AI Visibility bisnis Anda — audit, assessment, strategi GEO, dan monitoring agar AI merekomendasikan brand Anda.",
     url: siteUrl,
     images: [
       {
@@ -69,9 +69,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "The Micro Agent Company | AI Agents for Real Work",
+    title: "The Micro Agent Company | AI Visibility untuk Bisnis",
     description:
-      "AI agents untuk pebisnis & UMKM Indonesia. Kelola email, content, research, invoice via WhatsApp & Telegram.",
+      "Meningkatkan AI Visibility bisnis Anda — audit, assessment, strategi GEO, dan monitoring agar AI merekomendasikan brand Anda.",
     images: ["/hero.png"],
   },
 
@@ -112,7 +112,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               url: siteUrl,
               logo: `${siteUrl}/logo.svg`,
               description:
-                "AI agents untuk pebisnis & UMKM Indonesia. VPS + OpenClaw managed hosting.",
+                "The Micro Agent Company membantu bisnis meningkatkan AI Visibility agar AI platform seperti ChatGPT, Gemini, Claude, Perplexity dapat memahami dan merekomendasikan brand mereka.",
               founder: {
                 "@type": "Person",
                 name: "I Wayan Radea",
@@ -136,31 +136,43 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              name: "The Micro Agent Company",
-              applicationCategory: "BusinessApplication",
-              operatingSystem: "Web",
+              "@type": "Service",
+              name: "AI Visibility Audit",
+              provider: {
+                "@type": "Organization",
+                name: "The Micro Agent Company",
+                url: siteUrl,
+              },
+              areaServed: "ID",
+              description: "Analisis lengkap bagaimana AI saat ini melihat, memahami, dan merekomendasikan brand Anda — termasuk brand visibility analysis, AI search testing, competitor comparison, AI Readiness Score, dan rekomendasi aksi.",
               offers: [
                 {
                   "@type": "Offer",
-                  name: "Starter",
-                  price: "49000",
+                  name: "AI Visibility Audit",
+                  price: "150000",
                   priceCurrency: "IDR",
-                  description: "For students, creators, and solo users testing AI workflows.",
+                  description: "Analisis brand visibility, AI search testing, competitor comparison, AI Readiness Score",
                 },
                 {
                   "@type": "Offer",
-                  name: "Growth",
+                  name: "AI Readiness Assessment",
                   price: "149000",
                   priceCurrency: "IDR",
-                  description: "For UMKM and creators that need content output every week.",
+                  description: "Evaluasi kesiapan bisnis untuk AI search — struktur data, kualitas konten, entity consistency",
                 },
                 {
                   "@type": "Offer",
-                  name: "Custom Agent Setup",
+                  name: "GEO Strategy",
                   price: "1490000",
                   priceCurrency: "IDR",
-                  description: "For businesses that want custom AI agents and automation.",
+                  description: "Strategi roadmap Generative Engine Optimization untuk meningkatkan AI Visibility",
+                },
+                {
+                  "@type": "Offer",
+                  name: "AI Brand Monitoring",
+                  price: "2490000",
+                  priceCurrency: "IDR",
+                  description: "Pemantauan berkelanjutan AI Visibility Score, competitor tracking, prompt monitoring",
                 },
               ],
             }),
@@ -175,34 +187,34 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               mainEntity: [
                 {
                   "@type": "Question",
-                  name: "Do I need to know how to code?",
+                  name: "Apa itu AI Visibility?",
                   acceptedAnswer: {
                     "@type": "Answer",
-                    text: "Not at all. Our agents are designed for non-technical users. You interact through WhatsApp, Telegram, or dashboard — no coding required.",
+                    text: "AI Visibility adalah seberapa baik AI seperti ChatGPT, Gemini, Claude, dan Perplexity dapat memahami, merekomendasikan, dan merujuk brand Anda ketika pengguna bertanya. Ini mencakup optimasi konten publik, struktur data, entity consistency, dan sumber referensi yang digunakan AI.",
                   },
                 },
                 {
                   "@type": "Question",
-                  name: "Can I cancel anytime?",
+                  name: "Platform AI apa saja yang didukung?",
                   acceptedAnswer: {
                     "@type": "Answer",
-                    text: "Yes. All plans are month-to-month with no long-term contracts. You can cancel anytime through your dashboard.",
+                    text: "Kami mengoptimasi visibilitas di semua ekosistem AI utama termasuk ChatGPT, Google Gemini, Anthropic Claude, Perplexity, Microsoft Copilot, dan model open-source seperti Llama dan Mistral.",
                   },
                 },
                 {
                   "@type": "Question",
-                  name: "What makes MicroClaw different from ChatGPT or Claude?",
+                  name: "Apakah saya perlu mengubah produk untuk memulai?",
                   acceptedAnswer: {
                     "@type": "Answer",
-                    text: "MicroClaw gives you a dedicated AI assistant running on your own VPS with persistent memory, tool access, and channel integrations (WhatsApp, Telegram, Gmail, Calendar). ChatGPT is a shared chat interface.",
+                    text: "Tidak. Optimasi dilakukan pada konten publik, direktori industri, dokumentasi, dan sumber referensi online yang digunakan AI untuk membangun pengetahuannya tentang brand Anda.",
                   },
                 },
                 {
                   "@type": "Question",
-                  name: "Is my data private?",
+                  name: "Apa bedanya dengan SEO?",
                   acceptedAnswer: {
                     "@type": "Answer",
-                    text: "Yes. Your data stays on your own VPS. We never access your files or conversations unless you explicitly request support.",
+                    text: "SEO berfokus pada peringkat tautan di halaman hasil pencarian (SERP). AI Visibility berfokus pada relevansi semantik — membuat brand Anda menjadi rekomendasi teks definitif yang langsung disebut AI dalam jawabannya. SEO untuk mesin pencari, AI Visibility untuk mesin AI.",
                   },
                 },
               ],

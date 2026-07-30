@@ -22,115 +22,114 @@ import {
   Sparkles,
   Terminal,
   WalletCards,
+  Search,
+  Globe,
+  Target,
+  TrendingUp,
 } from "lucide-react";
 
 const whatsapp =
-  "https://wa.me/6281234567890?text=Saya%20mau%20setup%20The%20Micro%20Agent%20VPS";
+  "https://wa.me/6281234567890?text=Saya%20mau%20konsultasi%20AI%20Visibility";
 
 const nav = [
-  ["Solusi", "#solusi"],
-  ["Agent", "#agent"],
+  ["Layanan", "#layanan"],
+  ["Cara Kerja", "#cara-kerja"],
   ["Paket", "#paket"],
-  ["Cara kerja", "#cara-kerja"],
   ["FAQ", "#faq"],
 ];
 
 const problems = [
-  "Ribet setup VPS sendiri",
-  "Bingung install OpenClaw/Hermes",
-  "Persona dan memory agent tidak rapi",
-  "AI SaaS mahal dan data tersebar",
+  "Tidak tahu bagaimana AI melihat brand Anda",
+  "Bisnis tidak muncul di rekomendasi ChatGPT/Gemini/Claude",
+  "Konten website tidak teroptimasi untuk AI search",
+  "Entity bisnis tidak konsisten di seluruh web",
 ];
 
 const solution = [
-  "VPS configured",
-  "OpenClaw/Hermes installed",
-  "9router model provider",
-  "Telegram micro-agents",
-  "Shared memory",
-  "Second Brain / Obsidian-ready",
-  "Automation workflows",
+  "AI Visibility Audit",
+  "AI Readiness Assessment",
+  "GEO Strategy",
+  "AI Brand Monitoring",
+  "Content Optimization",
+  "Entity SEO",
+  "Knowledge Base Setup",
 ];
 
-const agents = [
-  ["Laufey", "Main", "Command hub untuk semua agent.", Bot],
-  ["Atlas", "Planner", "Rencana harian, prioritas, dan follow-up.", CalendarCheck],
-  ["Scout", "Research", "News, market, kompetitor, dan insight.", Newspaper],
-  ["Forge", "Coding", "Code, debug, deploy, dan cek service.", Code2],
-  ["Nimbus", "Context", "Weather, lokasi, dan konteks harian.", Cloud],
-  ["Spark", "Content", "Ide konten, script, caption, dan hook.", Sparkles],
-  ["Echo", "Outreach", "Follow-up, sales note, dan pipeline.", MessageCircle],
-  ["Ranker", "Visibility", "SEO, AI visibility, dan positioning.", Radar],
-  ["Ledger", "Finance", "Revenue, biaya, dan laporan cashflow.", WalletCards],
+const services = [
+  ["Audit", "AI Visibility", "Analisis menyeluruh bagaimana AI saat ini melihat dan merekomendasikan brand Anda.", Search],
+  ["Assess", "AI Readiness", "Evaluasi kesiapan website, konten, dan struktur data untuk AI search.", ShieldCheck],
+  ["Strategy", "GEO", "Roadmap optimasi Generative Engine Optimization untuk AI Visibility.", Target],
+  ["Monitor", "AI Brand", "Pemantauan berkelanjutan AI Visibility Score, kompetitor, dan tren.", TrendingUp],
+  ["Optimize", "Konten", "Optimasi konten agar mudah dipahami dan dirujuk oleh AI crawler.", FileText],
+  ["Entity", "SEO", "Memastikan entity bisnis konsisten di Knowledge Graph dan direktori.", Globe],
 ] as const;
 
 const plans = [
   {
-    name: "Starter Agent",
-    price: "Rp70.000",
-    week: "Rp20.000/week",
-    label: "Affordable entry",
+    name: "Starter Visibility",
+    price: "Rp150.000",
+    week: "Sekali audit",
+    label: "Mulai",
     accent: true,
-    best: "Best for solo users",
-    items: ["1 AI agent", "VPS + OpenClaw/Hermes setup", "Telegram bot", "Basic persona + memory", "Basic second brain folder"],
+    best: "Best for UMKM",
+    items: ["1x AI Visibility Audit", "AI Readiness Score", "3 kompetitor comparison", "Rekomendasi aksi", "Laporan PDF"],
   },
   {
-    name: "Founder Agent",
-    price: "Rp175.000",
-    week: "Rp50.000/week",
+    name: "Growth Visibility",
+    price: "Rp350.000",
+    week: "Rp350.000/bulan",
     label: "Recommended",
     recommended: true,
-    best: "Best for solo founders",
-    items: ["3 agents + main bot", "Full persona per agent", "Second Brain + GitHub sync", "1 automation workflow", "2 revisions/month"],
+    best: "Best for bisnis aktif",
+    items: ["AI Visibility Audit", "AI Readiness Assessment", "GEO Strategy", "Content optimization", "1x revisi konten/bulan"],
   },
   {
-    name: "Business Stack",
-    price: "Rp350.000",
-    week: "Rp100.000/week",
-    label: "Team stack",
-    best: "Best for small businesses",
-    items: ["5–7 agents", "Group topic routing", "Obsidian-ready second brain", "Mission control dashboard", "3 automation workflows", "Priority support"],
+    name: "Business Suite",
+    price: "Rp750.000",
+    week: "Rp750.000/bulan",
+    label: "Lengkap",
+    best: "Best for perusahaan",
+    items: ["Semua Growth features", "AI Brand Monitoring", "Competitor tracking", "Monthly report", "Priority support", "Entity SEO"],
   },
   {
     name: "Custom / Retainer",
-    price: "Rp500.000+",
-    week: "Rp150.000+/week",
-    label: "Custom ops",
-    best: "Best for advanced workflows",
-    items: ["Custom agents", "API integrations", "Advanced automation", "Full maintenance", "VIP support"],
+    price: "Rp1.500.000+",
+    week: "Kustom",
+    label: "Enterprise",
+    best: "Best for kebutuhan kustom",
+    items: ["Custom AI Visibility strategy", "API integrations", "Dedicated monitoring", "Full maintenance", "VIP support"],
   },
 ];
 
 const steps = [
-  "Kamu pilih paket",
-  "Kami setup VPS + OpenClaw/Hermes",
-  "Kami buat agent, persona, memory, dan Telegram bot",
-  "Kami test semua agent",
-  "Kamu mulai pakai tim AI pribadi",
+  "Konsultasi & analisis kebutuhan",
+  "AI Visibility Audit dilakukan",
+  "Laporan & AI Readiness Score dikirim",
+  "GEO Strategy diimplementasikan",
+  "Monitoring & optimasi berkelanjutan",
 ];
 
 const useCases = [
-  ["Daily planning", CalendarCheck],
-  ["Research market/news", Newspaper],
-  ["Content ideas and scripts", FileText],
-  ["Coding support", Code2],
-  ["Outreach and follow-up", MessageCircle],
-  ["Finance tracking", WalletCards],
-  ["Second brain / knowledge base", BrainCircuit],
-  ["Business reports", Server],
+  ["Cek sebutan brand di ChatGPT", Search],
+  ["Analisis kompetitor di AI search", Newspaper],
+  ["Optimasi konten untuk AI", FileText],
+  ["Entity SEO & Knowledge Graph", Code2],
+  ["Pantau tren AI Visibility", MessageCircle],
+  ["Laporan bulanan AI mentions", WalletCards],
+  ["Knowledge base untuk AI", BrainCircuit],
+  ["Strategi GEO lengkap", Server],
 ] as const;
 
-const tech = ["Ubuntu VPS", "OpenClaw / Hermes", "9router / COMBO-WOMBO", "Telegram Bot API", "GitHub private repo", "Obsidian", "systemd 24/7 service"];
+const tech = ["AI Visibility Audit Tool", "AI Search Testing", "GEO Strategy Framework", "Brand Monitoring Dashboard", "Entity SEO Analyzer", "Knowledge Base Builder", "Competitor AI Tracker"];
 
 const faqs = [
-  ["Apa itu OpenClaw/Hermes?", "Runtime untuk menjalankan agent pribadi, memory, tool, automation, dan komunikasi via bot."],
-  ["Apakah saya perlu ngerti Linux?", "Tidak. Kami setup, test, dan beri cara pakai ringkas."],
-  ["Apakah VPS termasuk?", "Bisa pakai VPS kamu sendiri atau kami bantu rekomendasi VPS murah."],
-  ["Bisa pakai Telegram?", "Bisa. Bot Telegram adalah interface utama yang paling praktis."],
-  ["Bisa tambah agent?", "Bisa. Paket bisa naik kapan saja sesuai kebutuhan."],
-  ["Bisa sync ke Obsidian?", "Bisa. Kami siapkan folder second brain yang Obsidian-ready."],
-  ["Apakah data saya aman?", "Stack berjalan di VPS kamu. Token diamankan, config bisa dibackup, dan akses tidak dibuka sembarangan."],
-  ["Kalau agent error bagaimana?", "Kami cek log, service, token, routing, dan restart/hardening sesuai paket support."],
+  ["Apa itu AI Visibility?", "AI Visibility adalah seberapa baik AI seperti ChatGPT, Gemini, Claude, dan Perplexity dapat memahami dan merekomendasikan brand Anda."],
+  ["Apakah saya perlu mengubah website?", "Tidak harus. Optimasi dilakukan pada konten publik dan struktur informasi yang sudah ada."],
+  ["Berapa lama hasil terlihat?", "Biasanya 1-2 minggu setelah strategi optimasi diimplementasikan, tergantung frekuensi crawl AI."],
+  ["Bagaimana cara cek AI Visibility?", "Kami lakukan audit menyeluruh — analisis sebutan di ChatGPT, Gemini, Claude, dan Perplexity."],
+  ["Apa bedanya dengan SEO?", "SEO untuk peringkat di Google. AI Visibility untuk rekomendasi di jawaban AI."],
+  ["Apakah data saya aman?", "Ya. Data Anda bersifat rahasia dan hanya digunakan untuk keperluan audit."],
+  ["Bisa untuk bisnis di luar Indonesia?", "Bisa. Kami melayani bisnis dari berbagai negara dengan fokus AI Visibility global."],
 ];
 
 export default function ServicesPage() {
@@ -152,7 +151,7 @@ export default function ServicesPage() {
             ))}
           </div>
           <Link href={whatsapp} className="hidden h-11 items-center rounded-full bg-[#0000EE] px-4 text-xs text-white hover:bg-[#0023EC] sm:inline-flex">
-            Mulai setup
+            Konsultasi Gratis
           </Link>
         </div>
       </nav>
@@ -161,34 +160,34 @@ export default function ServicesPage() {
         <div className="mx-auto grid max-w-[1200px] gap-10 px-6 py-[60px] lg:grid-cols-[1.05fr_.95fr] lg:px-0 lg:py-20">
           <div>
             <div className="mb-6 inline-flex h-6 items-center rounded bg-[#F89104] px-2 text-xs text-white">
-              Private VPS · Telegram Bot · Second Brain · 9router/COMBO-WOMBO
+              AI Visibility · GEO · Brand Monitoring
             </div>
             <h1 className="font-serif text-[44px] font-normal leading-[1.2] tracking-normal sm:text-[56px]">
               <TypewriterText
                 texts={[
-                  "Tim AI Agent Pribadi, Jalan 24/7 di VPS Kamu",
-                  "VPS AI Agent, Siap Kerja dari Telegram",
-                  "OpenClaw/Hermes Setup, Memory, dan Automation",
-                  "Private AI Team untuk Founder dan UMKM",
+                  "Bisnis Anda Siap Ditemukan AI?",
+                  "Cek AI Visibility Bisnis Sekarang",
+                  "Optimasi untuk ChatGPT, Gemini & Claude",
+                  "AI Visibility Audit untuk Brand Anda",
                 ]}
               />
             </h1>
             <p className="mt-6 max-w-[640px] font-serif text-[28px] leading-[42px] text-[#333333]">
-              Setup VPS AI agent 24/7: bot Telegram, memory, dashboard, dan automation siap pakai.
+              AI Visibility Audit, GEO Strategy, dan AI Brand Monitoring — semua dalam satu layanan.
             </p>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <PrimaryButton>Mulai dari Rp70k/bulan</PrimaryButton>
+              <PrimaryButton>Mulai dari Rp150k</PrimaryButton>
               <SecondaryButton href="#paket">Lihat Paket</SecondaryButton>
             </div>
           </div>
 
           <div className="border border-[#E5E5E5] bg-[#FFFCFC] p-6 lg:p-10">
             <div className="mb-6 flex items-center justify-between border-b border-[#E5E5E5] pb-4">
-              <span className="font-serif text-xl">Private AI OS</span>
+              <span className="font-serif text-xl">AI Visibility Console</span>
               <span className="rounded bg-[#0000EE] px-2 py-1 text-xs text-white">LIVE</span>
             </div>
             <div className="space-y-3 font-mono text-xs">
-              {["laufey route task", "atlas plan day", "scout scan market", "forge deploy check", "memory sync second-brain"].map((item) => (
+              {["visibility audit brand", "readiness check website", "geo strategy roadmap", "competitor ai analysis", "brand mention monitoring"].map((item) => (
                 <div key={item} className="flex items-center justify-between rounded-[10px] border border-[#E5E5E5] bg-white p-4 shadow-[rgba(0,0,0,0.05)_0px_2px_8px_0px]">
                   <span>$ {item}</span>
                   <Check className="h-4 w-4 text-[#0000EE]" />
@@ -199,19 +198,19 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <Section id="problem" label="Problem" title="Setup AI agent sendiri terlalu banyak titik gagal.">
+      <Section id="problem" label="Problem" title="Banyak bisnis tidak tahu bagaimana AI melihat mereka.">
         <Grid4>{problems.map((item) => <Card key={item} icon={ShieldCheck} title={item} />)}</Grid4>
       </Section>
 
-      <Section id="solusi" label="Solution" title="The Micro Agent VPS memberi kamu private AI operating system.">
+      <Section id="layanan" label="Layanan" title="Empat layanan utama AI Visibility untuk bisnis Anda.">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {solution.map((item) => <Card key={item} icon={Check} title={item} />)}
         </div>
       </Section>
 
-      <Section id="agent" label="Agent team" title="Agent kecil, peran jelas, kerja harian lebih ringan.">
+      <Section id="cara-kerja" label="Cara kerja" title="Lima langkah meningkatkan AI Visibility bisnis Anda.">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {agents.map(([name, role, desc, Icon]) => (
+          {services.map(([name, role, desc, Icon]) => (
             <article key={name} className="rounded-[10px] border border-[#E5E5E5] bg-white p-6 shadow-[rgba(0,0,0,0.05)_0px_2px_8px_0px]">
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -226,7 +225,7 @@ export default function ServicesPage() {
         </div>
       </Section>
 
-      <Section id="paket" label="Pricing" title="Mulai kecil, upgrade saat workflow sudah terbukti.">
+      <Section id="paket" label="Pricing" title="Mulai dari audit. Tingkatkan saat AI Visibility terbukti.">
         <div className="grid gap-4 lg:grid-cols-4">
           {plans.map((plan) => (
             <article key={plan.name} className={`rounded-[10px] border p-6 ${plan.recommended ? "border-[#0000EE] bg-white shadow-[rgba(0,0,238,0.12)_0px_8px_24px_0px]" : plan.accent ? "border-[#F89104] bg-[#FFFAF5]" : "border-[#E5E5E5] bg-white shadow-[rgba(0,0,0,0.05)_0px_2px_8px_0px]"}`}>
@@ -245,7 +244,7 @@ export default function ServicesPage() {
         </div>
       </Section>
 
-      <Section id="cara-kerja" label="How it works" title="Lima langkah sampai agent kamu siap dipakai.">
+      <Section id="tahapan" label="How it works" title="Lima langkah sampai AI Visibility terukur.">
         <ol className="grid gap-4 md:grid-cols-5">
           {steps.map((step, index) => (
             <li key={step} className="rounded-[10px] border border-[#E5E5E5] bg-white p-6">
@@ -256,25 +255,25 @@ export default function ServicesPage() {
         </ol>
       </Section>
 
-      <Section id="use-cases" label="Use cases" title="Bukan cuma chat. Ini operasional harian.">
+      <Section id="use-cases" label="Use cases" title="AI Visibility untuk operasional bisnis harian.">
         <Grid4>{useCases.map(([item, Icon]) => <Card key={item} icon={Icon} title={item} />)}</Grid4>
       </Section>
 
-      <Section id="tech" label="Tech stack" title="Stack terbuka, bisa diaudit, dan kamu punya akses.">
+      <Section id="tech" label="Tools" title="Tools yang kami gunakan untuk mengukur AI Visibility.">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {tech.map((item) => <div key={item} className="rounded-[10px] border border-[#E5E5E5] bg-white p-6 text-sm shadow-[rgba(0,0,0,0.05)_0px_2px_8px_0px]">{item}</div>)}
         </div>
       </Section>
 
-      <Section id="security" label="Security" title="Ownership dan keamanan bukan addon.">
+      <Section id="security" label="Security" title="Data Anda aman dan rahasia.">
         <div className="grid gap-4 md:grid-cols-3">
-          <Card icon={Database} title="Runs on your own VPS. You own your data." />
-          <Card icon={GitBranch} title="Config backup dan GitHub private repo tersedia." />
-          <Card icon={ShieldCheck} title="Bot tokens secured, 9router protected, no unnecessary SaaS lock-in." />
+          <Card icon={Database} title="Data bersifat rahasia dan hanya untuk keperluan audit." />
+          <Card icon={GitBranch} title="Laporan dan insight bisa diakses di dashboard pribadi." />
+          <Card icon={ShieldCheck} title="Tidak ada data yang dibagikan ke pihak ketiga tanpa izin." />
         </div>
       </Section>
 
-      <Section id="faq" label="FAQ" title="Pertanyaan sebelum setup.">
+      <Section id="faq" label="FAQ" title="Pertanyaan tentang AI Visibility.">
         <div className="grid gap-4 md:grid-cols-2">
           {faqs.map(([q, a]) => (
             <details key={q} className="rounded-[10px] border border-[#E5E5E5] bg-white p-6 shadow-[rgba(0,0,0,0.05)_0px_2px_8px_0px]">
@@ -288,19 +287,19 @@ export default function ServicesPage() {
       <section className="bg-black text-white">
         <div className="mx-auto max-w-[1200px] px-6 py-20 lg:px-0">
           <div className="max-w-[780px]">
-            <span className="inline-flex h-6 items-center rounded bg-[#F89104] px-2 text-xs text-white">Ready this week</span>
-            <h2 className="mt-6 font-serif text-[52px] leading-[62.4px]">Bangun tim AI agent pribadi kamu minggu ini.</h2>
-            <p className="mt-6 text-sm leading-6 text-white/75">Mulai dari Starter Agent. Naikkan ke Founder atau Business Stack ketika workflow kamu sudah jalan.</p>
+            <span className="inline-flex h-6 items-center rounded bg-[#F89104] px-2 text-xs text-white">Siap minggu ini</span>
+            <h2 className="mt-6 font-serif text-[52px] leading-[62.4px]">Cek AI Visibility bisnis Anda minggu ini.</h2>
+            <p className="mt-6 text-sm leading-6 text-white/75">Mulai dari Starter Visibility Audit. Naikkan ke Growth atau Business Suite ketika AI Visibility sudah terukur.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <PrimaryButton>Mulai Setup Sekarang</PrimaryButton>
-              <SecondaryButton href={whatsapp}>Konsultasi Paket</SecondaryButton>
+              <PrimaryButton>Mulai Audit Sekarang</PrimaryButton>
+              <SecondaryButton href={whatsapp}>Konsultasi Gratis</SecondaryButton>
             </div>
           </div>
         </div>
       </section>
 
       <footer className="border-t border-[#E5E5E5] bg-white px-6 py-8 text-center text-xs text-[#737373]">
-        The Micro Agent Company · Managed AI agent VPS stack
+        The Micro Agent Company · AI Visibility untuk bisnis Indonesia
       </footer>
     </main>
   );

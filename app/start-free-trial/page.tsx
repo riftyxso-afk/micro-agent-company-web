@@ -9,7 +9,7 @@ export default function StartFreeTrial() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const needs = ["Content", "Admin", "Research", "Sales", "Growth", "Website / Automation"];
+  const needs = ["AI Visibility Audit", "AI Readiness Assessment", "GEO Strategy", "AI Brand Monitoring", "Content Optimization", "Entity SEO"];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,15 +31,15 @@ export default function StartFreeTrial() {
 
       <section className="max-w-[580px] mx-auto px-4 sm:px-6 py-12 sm:py-16">
         <div className="text-center mb-8 sm:mb-12">
-          <h1 className="font-serif text-3xl sm:text-4xl tracking-tight font-normal mb-3">Start with AI agents.</h1>
-          <p className="text-stone-500 text-[14px] leading-relaxed">Tell us what you need help with. We'll set up the right agent workflow for you.</p>
+          <h1 className="font-serif text-3xl sm:text-4xl tracking-tight font-normal mb-3">Check your AI Visibility.</h1>
+          <p className="text-stone-500 text-[14px] leading-relaxed">Tell us about your business. We'll analyze how AI currently sees and recommends your brand.</p>
         </div>
 
         {submitted ? (
           <div className="border border-stone-200 rounded-2xl p-6 sm:p-10 text-center bg-[#FAF9F8]">
             <div className="w-14 h-14 rounded-full bg-green-50 border border-green-200 flex items-center justify-center mx-auto mb-6"><CheckCircle size={30} className="text-green-600" /></div>
             <h2 className="font-serif text-2xl mb-3">Thank you.</h2>
-            <p className="text-stone-500 text-[14px] mb-2">Your request has been received. We will contact you soon with your agent setup details.</p>
+            <p className="text-stone-500 text-[14px] mb-2">Your request has been received. We will contact you soon with your AI Visibility analysis results.</p>
             <Link href="/" className="inline-block mt-6 text-[13px] font-bold text-electric-blue underline underline-offset-4">Back to homepage</Link>
           </div>
         ) : (
@@ -59,7 +59,7 @@ export default function StartFreeTrial() {
             </div>
             <button type="submit" disabled={loading || !form.name || !form.contact || !form.need}
               className="w-full bg-black hover:bg-electric-blue disabled:bg-stone-300 text-white text-sm font-semibold py-3.5 rounded-full flex items-center justify-center gap-2 transition-all cursor-pointer">
-              {loading ? <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Processing...</> : <><Sparkles size={16} /> Join Waitlist</>}
+              {loading ? <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Processing...</> : <><Sparkles size={16} /> Start Free AI Audit</>}
             </button>
             <p className="text-[11px] text-center text-stone-400">Limited early beta for first users. Free during trial.</p>
           </form>

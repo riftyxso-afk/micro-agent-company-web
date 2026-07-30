@@ -7,7 +7,7 @@ const cspHeader = `
     style-src 'self' 'unsafe-inline' https://assets.calendly.com;
     img-src 'self' data: blob: https://picsum.photos https://microclaw.com https://calendly.com;
     font-src 'self' data: https://assets.calendly.com;
-    connect-src 'self' https://app.pakasir.com https://api.digitalocean.com https://calendly.com;
+    connect-src 'self' https://app.pakasir.com https://api.digitalocean.com https://calendly.com https://raw.githubusercontent.com;
     frame-src https://calendly.com;
     object-src 'none';
     base-uri 'self';

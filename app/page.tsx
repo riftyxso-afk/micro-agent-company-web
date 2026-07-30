@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState, type SVGProps } from "react";
+import React, { useState, useMemo, type SVGProps } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import HiringBanner from "@/components/sections/HiringBanner";
+import Globe from "@/components/Globe";
+import { MagneticDock, DockIconHome, DockIconSearch, DockIconFolder, DockIconMail, DockIconSettings } from "@/components/ui/magnetic-dock";
 import { useTranslation } from "@/lib/i18n";
 import {
   Sparkles,
@@ -10,16 +12,19 @@ import {
   ChevronUp,
   FileText,
   Brain,
-  Megaphone,
   HeartHandshake,
   TrendingUp,
   Workflow,
   Settings,
   Menu,
   X,
-  Play,
   ArrowRight,
-  Target
+  Target,
+  Users,
+  Zap,
+  Shield,
+  DollarSign,
+  Globe as GlobeIcon
 } from "lucide-react";
 
 // Types for Agents
@@ -470,13 +475,29 @@ const DEPARTMENTS = [
 export default function Page() {
   const { t, locale, setLocale } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
+  // Unused — mobile replaced by dock
+
   // Department Showcase State
   const [selectedDept, setSelectedDept] = useState("Content");
-  
+
   // Active slide index for hero rotating logos style
   const [activeSlide, setActiveSlide] = useState(0);
   const [slideDirection, setSlideDirection] = useState(1); // 1 = bottom to top, -1 = top to bottom
+
+  // Stable refs for Globe props — prevent re-init on every render
+  const globeDots = useMemo(() => ({ color: "#0000EE", size: 3, density: 5, allDots: false }), []);
+  const globeMarkers = useMemo(() => [
+    { lat: -6.2088, lng: 106.8456 },
+    { lat: -8.4095, lng: 115.1889 },
+    { lat: -7.2575, lng: 112.7521 },
+    { lat: -6.9175, lng: 107.6191 },
+    { lat: -3.3190, lng: 114.5890 },
+    { lat: -5.1477, lng: 119.4327 },
+    { lat: -0.5022, lng: 117.1535 },
+    { lat: 3.5952, lng: 98.6722 },
+    { lat: -1.2696, lng: 116.8279 },
+  ], []);
+  const globeMarkerConfig = useMemo(() => ({ markers: globeMarkers, color: "#0000EE", size: 60 }), [globeMarkers]);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -485,13 +506,6 @@ export default function Page() {
     }, 3000);
     return () => clearInterval(interval);
   }, []);
-
-  // Grid Agent Selector State
-  const [selectedAgent, setSelectedAgent] = useState<AgentType | null>("Ollama");
-  const [agentPrompt, setAgentPrompt] = useState(AGENTS_CONFIG["Ollama"].placeholder);
-  const [agentResult, setAgentResult] = useState("");
-  const [loadingAgent, setLoadingAgent] = useState(false);
-  const [agentError, setAgentError] = useState("");
 
   // Discovery Analytics Form State
   const [companyName, setCompanyName] = useState("");
@@ -502,47 +516,6 @@ export default function Page() {
 
   // FAQ Accordion indexes
   const [openFaqIndexes, setOpenFaqIndexes] = useState<number[]>([0]);
-
-  // Handle agent switch
-  const handleSelectAgent = (agent: AgentType) => {
-    setSelectedAgent(agent);
-    setAgentPrompt(AGENTS_CONFIG[agent].placeholder);
-    setAgentResult("");
-    setAgentError("");
-  };
-
-  // Run AI Agent request
-  const handleRunAgent = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!agentPrompt.trim()) return;
-
-    setLoadingAgent(true);
-    setAgentError("");
-    setAgentResult("");
-
-    try {
-      const res = await fetch("/api/gemini", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "agent_work",
-          agentType: selectedAgent,
-          prompt: agentPrompt
-        })
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to generate response.");
-      }
-
-      setAgentResult(data.text || "No response text was returned.");
-    } catch (err: any) {
-      setAgentError(err.message || "An unexpected error occurred while communicating with the server.");
-    } finally {
-      setLoadingAgent(false);
-    }
-  };
 
   // Run AI Discovery Optimization planner
   const handleRunDiscovery = async (e: React.FormEvent) => {
@@ -589,7 +562,7 @@ export default function Page() {
   };
 
   return (
-    <div className="font-sans text-stone-900 bg-white scroll-smooth pb-0">
+    <div className="font-sans text-stone-900 bg-white scroll-smooth pb-0 md:pb-0 pb-24">
       {/* Navbar section exactly styled as mockup with blur */}
       <nav id="navbar" className="fixed top-0 left-0 right-0 z-50 bg-white/60 backdrop-blur-xl border-b border-stone-200/50 transition-colors duration-200">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-3">
@@ -641,10 +614,10 @@ export default function Page() {
               </button>
             </div>
 
-            {/* Mobile menu trigger */}
-            <button 
+            {/* Mobile menu trigger — hidden, dock replaces it */}
+            <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-stone-700 hover:text-stone-900 p-1"
+              className="md:hidden text-stone-700 hover:text-stone-900 p-1 hidden"
               id="mobile-menu-btn"
             >
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -652,36 +625,59 @@ export default function Page() {
           </div>
         </div>
 
-        {/* Mobile menu layout */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white/95 backdrop-blur-md border-b border-stone-200 py-4 px-6 space-y-3 absolute top-16 left-0 right-0 shadow-lg">
-            <a href="/products" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">{t("nav.products")}</a>
-            <a href="/agents" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">{t("nav.agents")}</a>
-            <a href="/use-cases" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">{t("nav.useCases")}</a>
-            <a href="/about" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">{t("nav.about")}</a>
-            <a href="/pricing" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">{t("nav.pricing")}</a>
-            <a href="/docs" onClick={() => setMobileMenuOpen(false)} className="block text-stone-700 font-medium text-[14px]">{t("nav.docs")}</a>
-            <div className="pt-2 border-t border-stone-100 flex flex-col space-y-2">
-              <a href="/sign-in" onClick={() => setMobileMenuOpen(false)} className="text-center font-medium text-[13px] py-1.5 border border-stone-200 rounded-[10px]">
-                {t("nav.signIn")}
-              </a>
-              <div className="flex items-center justify-center space-x-2 pt-1">
-                <button
-                  onClick={() => { setLocale("id"); setMobileMenuOpen(false); }}
-                  className={`text-[12px] font-medium px-3 py-1 rounded ${locale === "id" ? "bg-pure-black text-white" : "text-stone-500 border border-stone-200"}`}
-                >
-                  ID
-                </button>
-                <button
-                  onClick={() => { setLocale("en"); setMobileMenuOpen(false); }}
-                  className={`text-[12px] font-medium px-3 py-1 rounded ${locale === "en" ? "bg-pure-black text-white" : "text-stone-500 border border-stone-200"}`}
-                >
-                  EN
-                </button>
-              </div>
-            </div>
+        {/* Mobile dock — flush bottom, no gap */}
+        <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 flex justify-center" style={{ bottom: 0 }}>
+          <div style={{ width: "100%", margin: 0, padding: 0, lineHeight: 0 }}>
+            <MagneticDock
+              position="bottom"
+              variant="solid"
+              iconSize={42}
+              maxScale={1.15}
+              magneticDistance={60}
+              showLabels={false}
+              className="p-0 gap-0 items-center justify-center"
+              style={{ borderRadius: "16px 16px 0 0", padding: "8px 0 4px 0", gap: 0, alignItems: "center" }}
+              className="rounded-t-xl w-full justify-evenly gap-0 border-b-0 p-0"
+              items={[
+                {
+                  id: "products",
+                  label: "Produk",
+                  icon: <DockIconFolder />,
+                  onClick: () => window.location.href = "/products",
+                },
+                {
+                  id: "agents",
+                  label: "Agents",
+                  icon: <DockIconSearch />,
+                  onClick: () => window.location.href = "/agents",
+                },
+                {
+                  id: "home",
+                  label: "Home",
+                  icon: <DockIconHome />,
+                  onClick: () => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  },
+                  isActive: true,
+                },
+                {
+                  id: "pricing",
+                  label: "Harga",
+                  icon: <DockIconMail />,
+                  onClick: () => window.location.href = "/pricing",
+                },
+                {
+                  id: "docs",
+                  label: "Docs",
+                  icon: <DockIconSettings />,
+                  onClick: () => window.location.href = "/docs",
+                },
+              ]}
+            />
           </div>
-        )}
+        </div>
+
+        {/* Mobile menu layout — removed, dock replaces it */}
       </nav>
 
       {/* Hero section */}
@@ -846,19 +842,13 @@ export default function Page() {
                         </div>
                       </div>
 
-                      <button
-                        onClick={() => {
-                          handleSelectAgent(dept.agent);
-                          const el = document.getElementById("agent-playroom");
-                          if (el) {
-                            el.scrollIntoView({ behavior: "smooth" });
-                          }
-                        }}
+                      <a
+                        href="/products"
                         className="mt-4 w-full justify-center bg-pure-black text-white hover:bg-electric-blue text-[12px] font-semibold py-2.5 px-4 rounded-lg inline-flex items-center gap-1.5 transition-all shadow-xs cursor-pointer active:scale-98"
                       >
-                        {t("builtFor.activatePlayroom")}
+                        {locale === "id" ? "Lihat produk →" : "View products →"}
                         <ArrowRight size={12} />
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </motion.div>
@@ -868,138 +858,97 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Interactive Agent Playroom Component */}
-      <section id="agent-playroom" className="min-h-screen flex flex-col justify-center py-20 bg-white border-b border-stone-100">
-        <div className="max-w-[900px] mx-auto px-6">
-          <div className="text-center max-w-[600px] mx-auto mb-12">
-            <h2 className="font-serif text-3xl font-medium text-stone-950 mb-3">
-              {t("agentPlayroom.title")}
-            </h2>
-            <p className="text-stone-500 text-[14px]">
-              {t("agentPlayroom.subtitle")}
-            </p>
-          </div>
+      {/* What We Deliver Section — Text left, Globe right */}
+      <section id="value-props" className="min-h-screen flex flex-col justify-center py-20 bg-white border-b border-stone-100 relative overflow-hidden">
+        <div className="max-w-[1440px] mx-auto w-full px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center min-h-[70vh]">
+            {/* Left: Text */}
+            <div className="max-w-[540px]">
+              <p className="text-[11px] font-bold text-stone-400 uppercase tracking-widest mb-4">
+                {locale === "id" ? "APA YANG KAMI BERIKAN" : "WHAT WE DELIVER"}
+              </p>
+              <h2 className="font-serif text-[42px] sm:text-[52px] leading-[1.1] font-normal text-stone-950 mb-5">
+                {locale === "id" ? "Tim AI untuk bisnis kecil." : "AI team for small business."}
+              </h2>
+              <p className="text-stone-500 text-[15px] leading-relaxed mb-8">
+                {locale === "id"
+                  ? "Kami bukan cuma jual tools. Kami bantu UMKM, freelancer, dan creator Indonesia jalanin bisnis seperti punya tim penuh — tanpa biaya gaji bulanan."
+                  : "We don't just sell tools. We help UMKM, freelancers, and creators run a business like a full team — without monthly salary costs."}
+              </p>
 
-          {selectedAgent && (
-            <div className="border border-stone-200 rounded-xl overflow-hidden shadow-xs bg-white">
-              {/* Header */}
-              <div className="bg-stone-50 border-b border-stone-200 px-6 py-4 flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="p-2 rounded-lg bg-white border border-stone-200">
-                    {React.createElement(AGENTS_CONFIG[selectedAgent].icon, { className: "w-5 h-5 text-electric-blue" })}
+              <div className="space-y-5">
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded-full bg-electric-blue/10 text-electric-blue flex items-center justify-center shrink-0 mt-0.5">
+                    <Users className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="font-sans font-bold text-stone-900 text-sm">{selectedAgent} Agent</h4>
-                    <p className="text-[11px] text-stone-400 flex items-center gap-1">
-                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> {t("agentPlayroom.ready")}
-                    </p>
+                    <h4 className="font-sans font-semibold text-stone-900 text-[14px]">{locale === "id" ? "Satu VPS, Tim Penuh" : "One VPS, Full Team"}</h4>
+                    <p className="text-stone-500 text-[13px] leading-relaxed">{locale === "id" ? "Content, Admin, Research, Sales, Support, Growth — 6 peran agent AI dalam satu VPS." : "Content, Admin, Research, Sales, Support, Growth — 6 AI roles in one VPS."}</p>
                   </div>
                 </div>
-                <span className="text-[11px] font-mono bg-stone-100 text-stone-500 px-2 py-1 rounded">
-                  {t("agentPlayroom.model")}
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 mt-0.5">
+                    <Zap className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="font-sans font-semibold text-stone-900 text-[14px]">{locale === "id" ? "Tanpa Koding" : "No Code Required"}</h4>
+                    <p className="text-stone-500 text-[13px] leading-relaxed">{locale === "id" ? "Chat via WhatsApp/Telegram. Agent paham Bahasa Indonesia & konteks bisnis lokal." : "Chat via WhatsApp/Telegram. Agents understand Indonesian & local business context."}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0 mt-0.5">
+                    <Shield className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="font-sans font-semibold text-stone-900 text-[14px]">{locale === "id" ? "Data Tetap Milikmu" : "Your Data Stays Yours"}</h4>
+                    <p className="text-stone-500 text-[13px] leading-relaxed">{locale === "id" ? "VPS milik kamu, root access penuh. Tidak ada data mining, tidak ada vendor lock-in." : "Your VPS, full root access. No data mining, no vendor lock-in."}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 mt-0.5">
+                    <DollarSign className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="font-sans font-semibold text-stone-900 text-[14px]">{locale === "id" ? "Mulai Rp70k/bln" : "From Rp70k/month"}</h4>
+                    <p className="text-stone-500 text-[13px] leading-relaxed">{locale === "id" ? "Bayar pakai Rupiah via transfer atau e-wallet. Tidak ada kontrak tahunan." : "Pay in Rupiah via bank or e-wallet. No annual contracts."}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-10 pt-8 border-t border-stone-200 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <a
+                  href="/book-a-call"
+                  className="inline-flex items-center gap-2 bg-pure-black text-white font-sans text-[13px] font-semibold px-6 py-3 rounded-full hover:bg-electric-blue transition-all shadow-md active:scale-95"
+                >
+                  {locale === "id" ? "Konsultasi Gratis" : "Free Consultation"}
+                  <ArrowRight size={14} />
+                </a>
+                <span className="text-[12px] text-stone-400">
+                  {locale === "id" ? "30 menit, tanpa komitmen" : "30 min, no commitment"}
                 </span>
               </div>
-
-              {/* Body */}
-              <div className="p-6">
-                <p className="text-stone-600 text-[13px] mb-4">
-                  {t(`agents.${selectedAgent.toLowerCase()}Desc`)}
-                </p>
-
-                <form onSubmit={handleRunAgent} className="space-y-4">
-                  <div>
-                    <label className="block text-stone-400 text-[11px] font-bold uppercase tracking-wider mb-2">
-                      {t("agentPlayroom.instructions")}
-                    </label>
-                    <textarea
-                      value={agentPrompt}
-                      onChange={(e) => setAgentPrompt(e.target.value)}
-                      rows={3}
-                      className="w-full border border-stone-200 rounded-lg p-3 text-stone-800 text-[13px] focus:ring-1 focus:ring-electric-blue focus:border-electric-blue focus:outline-none placeholder-stone-400 font-sans"
-                      id="agent-prompt-textarea"
-                    />
-                  </div>
-
-                  <div className="flex items-center justify-between pt-1">
-                    <button
-                      type="button"
-                      onClick={() => setAgentPrompt(AGENTS_CONFIG[selectedAgent].placeholder)}
-                      className="text-stone-400 text-[11px] hover:text-stone-600 flex items-center gap-1"
-                    >
-                      {t("agentPlayroom.reset")}
-                    </button>
-
-                    <button
-                      type="submit"
-                      disabled={loadingAgent || !agentPrompt.trim()}
-                      className="bg-pure-black hover:bg-electric-blue disabled:bg-stone-300 text-white font-sans text-[12px] font-semibold px-5 py-2.5 rounded-full inline-flex items-center gap-2 transition-all active:scale-95 cursor-pointer shadow-xs"
-                      id="run-agent-btn"
-                    >
-                      {loadingAgent ? (
-                        <>
-                          <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          {t("agentPlayroom.executing")}
-                        </>
-                      ) : (
-                        <>
-                          <Play size={12} className="fill-white" />
-                          {t("agentPlayroom.execute")}
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </form>
-
-                {/* Response outputs */}
-                {(agentResult || loadingAgent || agentError) && (
-                  <div className="mt-6 border-t border-stone-200 pt-6">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-[11px] font-bold text-stone-400 uppercase tracking-wider flex items-center gap-1.5">
-                        <Sparkles size={11} className="text-electric-blue" />
-                        {t("agentPlayroom.output")}
-                      </span>
-                      {loadingAgent && (
-                        <span className="text-[11px] text-electric-blue font-mono animate-pulse">
-                          {t("agentPlayroom.receiving")}
-                        </span>
-                      )}
-                    </div>
-
-                    {loadingAgent && (
-                      <div className="bg-stone-50 border border-stone-200 rounded-lg p-4 space-y-2">
-                        <div className="h-3.5 bg-stone-200 rounded animate-pulse w-3/4" />
-                        <div className="h-3.5 bg-stone-200 rounded animate-pulse w-5/6" />
-                        <div className="h-3.5 bg-stone-200 rounded animate-pulse w-2/3" />
-                      </div>
-                    )}
-
-                    {agentError && (
-                      <div className="bg-red-50 border border-red-200 text-red-600 rounded-lg p-4 text-[13px]">
-                        <p className="font-bold mb-1">{t("agentPlayroom.failed")}</p>
-                        <p>{agentError}</p>
-                      </div>
-                    )}
-
-                    {agentResult && (
-                      <div className="bg-stone-900 border border-stone-950 text-stone-100 rounded-lg p-5 font-sans leading-relaxed text-[13px] shadow-inner overflow-x-auto">
-                        <div className="prose prose-invert max-w-none text-stone-300">
-                          {agentResult.split("\n").map((line, idx) => {
-                            if (line.startsWith("#")) {
-                              return <h4 key={idx} className="text-white font-bold text-sm mt-3 mb-1 first:mt-0">{line.replace(/#/g, "").trim()}</h4>;
-                            }
-                            if (line.startsWith("-") || line.startsWith("*")) {
-                              return <li key={idx} className="ml-4 list-disc mt-1">{line.substring(1).trim()}</li>;
-                            }
-                            return <p key={idx} className="mt-1 pb-1">{line}</p>;
-                          })}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
             </div>
-          )}
+
+            {/* Right: Globe */}
+            <div className="w-full h-[55vh] min-h-[400px] relative">
+              <Globe
+                direction="right"
+                speed={2}
+                scale={8}
+                fill="solid"
+                fillColor="#0000EE"
+                oceanColor="#fafafa"
+                outlineColor="#d4d4d4"
+                showOutline={true}
+                outlineWidth={0.5}
+                showGrid={true}
+                graticuleColor="#e5e5e5"
+                detail={8}
+                dots={globeDots}
+                markerConfig={globeMarkerConfig}
+              />
+            </div>
+          </div>
         </div>
       </section>
 

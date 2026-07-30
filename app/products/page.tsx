@@ -9,52 +9,52 @@ export default function ProductsPage() {
 
   const products = [
     {
-      id: "microclaw",
-      name: "MicroClaw",
+      id: "visibility-audit",
+      name: "AI Visibility Audit",
       category: "saas",
-      tagline: "OpenClaw managed hosting — AI assistant 24/7 via WhatsApp & Telegram.",
-      desc: "VPS + OpenClaw pre-installed. Setup otomatis, akses via WhatsApp/Telegram, integrasi Gmail & Calendar. Untuk pebisnis & UMKM Indonesia.",
-      badge: "Self-Serve App",
-      pricing: "Rp 150.000 / month",
-      cta: "Lihat MicroClaw",
-      href: "/products/microclaw",
-      features: ["WhatsApp & Telegram access", "Manajemen email & calendar", "Second Brain / Obsidian vault", "Invoice & payment tracking", "Integrasi dengan SekaliPost"]
-    },
-    {
-      id: "sekalipost",
-      name: "SekaliPost",
-      category: "saas",
-      tagline: "Content workflow engine for creators and UMKM.",
-      desc: "One-click scheduling system. Synthesizes trending niche topics, draft captions, constructs optimal hashtags, and schedules calendars.",
-      badge: "Self-Serve App",
-      pricing: "Rp 149.000 / month",
-      cta: "Try SekaliPost",
+      tagline: "Analisis lengkap bagaimana AI melihat brand Anda.",
+      desc: "Brand visibility analysis, AI search testing, competitor comparison, AI Readiness Score, dan rekomendasi aksi konkret.",
+      badge: "Self-Serve Tool",
+      pricing: "Rp 150.000 / audit",
+      cta: "Book Audit",
       href: "/start-free-trial",
-      features: ["Multi-platform scheduling", "AI hooks generator", "Niche trend discovery engine", "Visual workflow planner"]
+      features: ["Brand visibility analysis", "AI search testing", "Competitor comparison", "AI Readiness Score", "Action recommendations"]
     },
     {
-      id: "growth-agent",
-      name: "AI Growth Agent Setup",
+      id: "readiness-assessment",
+      name: "AI Readiness Assessment",
+      category: "saas",
+      tagline: "Evaluasi kesiapan bisnis untuk AI search.",
+      desc: "Analisis website, struktur data, kualitas konten, entity consistency, dan knowledge coverage untuk AI search.",
+      badge: "Self-Serve Tool",
+      pricing: "Rp 149.000 / assessment",
+      cta: "Start Assessment",
+      href: "/start-free-trial",
+      features: ["Website analysis", "Content quality audit", "Structured data check", "Entity consistency", "Knowledge coverage"]
+    },
+    {
+      id: "geo-strategy",
+      name: "GEO Strategy",
       category: "services",
-      tagline: "Custom-configured growth pipeline for small teams.",
-      desc: "We build and train custom agents focused on content generation, viral video scripts, social captions, and outreach optimization.",
+      tagline: "Strategic roadmap Generative Engine Optimization.",
+      desc: "Roadmap strategis untuk meningkatkan AI Visibility — homepage optimization, FAQ strategy, product pages, dan entity optimization.",
       badge: "Done-With-You Service",
       pricing: "Rp 1.490.000 (One-time Setup)",
-      cta: "Book AI Growth Agent",
+      cta: "Book GEO Strategy",
       href: "/start-free-trial",
-      features: ["30 custom niche content ideas", "10 ready-to-record video scripts", "Custom n8n content workflow", "14-day calendar training"]
+      features: ["Homepage optimization", "FAQ strategy", "Product page optimization", "Knowledge base", "Entity optimization"]
     },
     {
-      id: "admin-agent",
-      name: "AI Admin Agent Setup",
+      id: "brand-monitoring",
+      name: "AI Brand Monitoring",
       category: "services",
-      tagline: "Invoice, report, and back-office automation system.",
-      desc: "Connect local lightweight models (Ollama/DeepSeek) or cloud APIs to automate customer follow-ups, invoice audits, and weekly logs.",
+      tagline: "Pemantauan berkelanjutan AI Visibility Score.",
+      desc: "Continuous monitoring AI Visibility Score, competitor tracking, prompt monitoring, dan monthly reports untuk brand Anda.",
       badge: "Done-With-You Service",
       pricing: "Rp 2.490.000 (One-time Setup)",
-      cta: "Book AI Admin Agent",
+      cta: "Book Monitoring",
       href: "/start-free-trial",
-      features: ["Invoice parsing pipelines", "Auto email responder routes", "Secure local database storage", "Weekly report consolidator"]
+      features: ["AI Visibility Score tracking", "Competitor monitoring", "Prompt tracking", "Monthly reports", "Alert notifications"]
     }
   ];
 
@@ -89,10 +89,10 @@ export default function ProductsPage() {
       <main className="max-w-[1200px] mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-16 sm:pb-24">
         <div className="text-center max-w-[700px] mx-auto mb-16">
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-stone-950 mb-4 tracking-tight">
-            Products & systems under <br />one micro company.
+            AI Visibility services for<br />your business.
           </h1>
           <p className="text-stone-500 text-[15px] max-w-[500px] mx-auto leading-relaxed">
-            From self-serve creator applications to custom-configured operations setups. Choose the way your team works.
+            From AI Visibility Audit to AI Brand Monitoring — choose the service that fits your business needs.
           </p>
 
           {/* Tabs */}
@@ -101,7 +101,7 @@ export default function ProductsPage() {
               onClick={() => setActiveTab("all")}
               className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 text-[11px] sm:text-[12px] font-semibold rounded-md transition-all cursor-pointer ${activeTab === "all" ? "bg-white text-stone-950 shadow-xs" : "text-stone-500 hover:text-stone-900"}`}
             >
-              All Offerings
+              All Services
             </button>
             <button
               onClick={() => setActiveTab("saas")}
