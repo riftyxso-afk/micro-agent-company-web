@@ -66,10 +66,11 @@ export default function PricingPage() {
       cta: t("pricingPage.starterCta"),
       trial: t("pricingPage.starterNote"),
       features: [
-        "7-day free trial before billing",
-        "10 AI content checks / day",
-        "Basic prompt templates",
-        "Email support"
+        "AI Visibility Score",
+        "AI Readiness Check",
+        "Monthly AI Visibility Report",
+        "Basic AI Recommendations",
+        "Email Support"
       ]
     },
     {
@@ -80,25 +81,27 @@ export default function PricingPage() {
       highlight: true,
       savings: annual ? t("pricingPage.saveYearly") : t("pricingPage.popular"),
       features: [
-        "SekaliPost workflow",
-        "30 content ideas / month",
-        "Caption + hashtag generator",
-        "14-day calendar builder",
-        "WhatsApp promo templates"
+        "Everything in Starter",
+        "GEO Recommendations",
+        "Competitor Tracking",
+        "Prompt Performance Monitoring",
+        "Monthly Optimization Report",
+        "Priority Support"
       ]
     },
     {
       nameKey: "custom",
       priceValue: 1490000,
       priceSuffix: "+",
-      period: " setup",
+      period: "",
       cta: t("pricingPage.customCta"),
       features: [
-        "AI Growth Agent setup",
-        "AI Admin Agent setup",
-        "Custom prompt workflow",
-        "Simple usage guide",
-        "Founder onboarding call"
+        "AI Visibility Audit",
+        "AI Readiness Assessment",
+        "Custom GEO Strategy",
+        "AI Brand Monitoring",
+        "Monthly Strategy Session",
+        "Dedicated Support"
       ]
     },
   ], [annual, t]);
@@ -226,7 +229,7 @@ export default function PricingPage() {
 
               {plan.trial && (
                 <div className="mb-5 rounded-xl border border-orange-200 bg-orange-50/70 p-3 text-[12.5px] font-medium text-stone-700">
-                  {t("pricingPage.starter")} mulai dengan <span className="font-bold text-warm-orange">free trial 7 hari</span>. Tidak perlu bayar saat mulai validasi.
+                  {t("pricingPage.starter")} starts with <span className="font-bold text-warm-orange">7-day free trial</span>. No payment required to begin.
                 </div>
               )}
 

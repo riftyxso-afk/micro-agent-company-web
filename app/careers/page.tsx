@@ -8,7 +8,7 @@ import { ArrowRight, MapPin, Clock, Briefcase, CheckCircle2, X, Upload, Loader2 
 const openRoles = [
   {
     title: "AI Visibility Analyst",
-    department: "Services",
+    department: "Solutions",
     location: "Remote · Indonesia",
     type: "Full-time",
     description: "Conduct AI Visibility Audits for clients. Analyze brand mentions across ChatGPT, Gemini, Claude, Perplexity. Build AI Readiness Reports.",
@@ -75,7 +75,7 @@ const openRoles = [
   },
   {
     title: "GEO Strategist",
-    department: "Services",
+    department: "Solutions",
     location: "Remote · Indonesia",
     type: "Full-time",
     description: "Design and implement Generative Engine Optimization strategies. Help clients improve AI discoverability through content optimization.",

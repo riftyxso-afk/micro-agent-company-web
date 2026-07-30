@@ -1159,10 +1159,10 @@ export default function Page() {
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center max-w-[600px] mx-auto mb-16">
             <p className="text-[11px] font-bold text-stone-400 uppercase tracking-widest mb-3">
-              {locale === "id" ? "GARAPAN KAMI" : "OUR PRODUCTS"}
+              {locale === "id" ? "SOLUSI" : "OUR SOLUTIONS"}
             </p>
             <h2 className="font-serif text-3xl sm:text-4xl font-normal text-stone-950 mb-3">
-              {locale === "id" ? "Produk yang sudah kami bangun" : "Products we've built"}
+              {locale === "id" ? "Solusi yang kami bangun untuk AI Visibility" : "Solutions we've built for AI Visibility"}
             </h2>
             <p className="text-stone-500 text-[13px]">
               {locale === "id"
